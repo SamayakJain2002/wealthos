@@ -8,11 +8,7 @@ from plotly.subplots import make_subplots
 import yfinance as yf
 from datetime import date, timedelta
 
-try:
-    import pandas_ta as ta
-    TA_AVAILABLE = True
-except ImportError:
-    TA_AVAILABLE = False
+TA_AVAILABLE = False
 
 # Full NSE ticker map
 NSE_TICKERS = {

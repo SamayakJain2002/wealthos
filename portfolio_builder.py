@@ -6,12 +6,6 @@ from scipy.optimize import minimize
 from scipy import stats
 from datetime import date, timedelta
 
-import streamlit as st
-import plotly.graph_objects as go
-from scipy.optimize import minimize
-from scipy import stats
-from datetime import date, timedelta
-
 RISK_FREE = 0.065
 PROFILE_NAMES  = {1:"Conservative",2:"Mod. Conservative",
                   3:"Balanced",4:"Mod. Aggressive",5:"Aggressive"}

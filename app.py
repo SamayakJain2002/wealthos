@@ -18,7 +18,7 @@ from factor import render_factor_tab
 from scenario import render_scenario_tab
 from benchmark import render_benchmark_tab
 from tooltips import info_tooltip, glossary_page
-from stock_search import render_stock_search
+from future_returns import render_future_returns
 from charts import render_charts_tab
 from backtester import render_backtester_tab
 from walkforward import render_walkforward_tab
@@ -104,11 +104,169 @@ INDEX_UNIVERSE = {
     "Silver ETF":       ("SILVERETF.NS",  "Silver"),
     "REIT":             ("EMBASSY.NS",    "REIT"),
 }
-# Import full Nifty 500 stock list from stock_search
-from stock_search import NSE_STOCKS as _NSE_STOCKS
 STOCK_UNIVERSE = {
-    name: (ticker, "Stock-Custom")
-    for name, ticker in _NSE_STOCKS.items()
+    "HDFC Bank":("HDFCBANK.NS","Stock-Bank"),
+    "ICICI Bank":("ICICIBANK.NS","Stock-Bank"),
+    "State Bank of India":("SBIN.NS","Stock-Bank"),
+    "Kotak Mahindra Bank":("KOTAKBANK.NS","Stock-Bank"),
+    "Axis Bank":("AXISBANK.NS","Stock-Bank"),
+    "IndusInd Bank":("INDUSINDBK.NS","Stock-Bank"),
+    "Federal Bank":("FEDERALBNK.NS","Stock-Bank"),
+    "Bank of Baroda":("BANKBARODA.NS","Stock-Bank"),
+    "Canara Bank":("CANBK.NS","Stock-Bank"),
+    "Punjab National Bank":("PNB.NS","Stock-Bank"),
+    "Union Bank":("UNIONBANK.NS","Stock-Bank"),
+    "IDFC First Bank":("IDFCFIRSTB.NS","Stock-Bank"),
+    "AU Small Finance":("AUBANK.NS","Stock-Bank"),
+    "Bajaj Finance":("BAJFINANCE.NS","Stock-Finance"),
+    "Bajaj Finserv":("BAJAJFINSV.NS","Stock-Finance"),
+    "HDFC Life":("HDFCLIFE.NS","Stock-Finance"),
+    "SBI Life":("SBILIFE.NS","Stock-Finance"),
+    "ICICI Prudential":("ICICIPRULI.NS","Stock-Finance"),
+    "Muthoot Finance":("MUTHOOTFIN.NS","Stock-Finance"),
+    "Cholamandalam":("CHOLAFIN.NS","Stock-Finance"),
+    "Shriram Finance":("SHRIRAMFIN.NS","Stock-Finance"),
+    "PFC":("PFC.NS","Stock-Finance"),
+    "REC Ltd":("RECLTD.NS","Stock-Finance"),
+    "TCS":("TCS.NS","Stock-IT"),
+    "Infosys":("INFY.NS","Stock-IT"),
+    "HCL Technologies":("HCLTECH.NS","Stock-IT"),
+    "Wipro":("WIPRO.NS","Stock-IT"),
+    "Tech Mahindra":("TECHM.NS","Stock-IT"),
+    "LTIMindtree":("LTIM.NS","Stock-IT"),
+    "Mphasis":("MPHASIS.NS","Stock-IT"),
+    "Persistent Systems":("PERSISTENT.NS","Stock-IT"),
+    "Coforge":("COFORGE.NS","Stock-IT"),
+    "Tata Elxsi":("TATAELXSI.NS","Stock-IT"),
+    "KPIT Technologies":("KPITTECH.NS","Stock-IT"),
+    "Happiest Minds":("HAPPSTMNDS.NS","Stock-IT"),
+    "Cyient":("CYIENT.NS","Stock-IT"),
+    "LTTS":("LTTS.NS","Stock-IT"),
+    "Birlasoft":("BSOFT.NS","Stock-IT"),
+    "Hindustan Unilever":("HINDUNILVR.NS","Stock-FMCG"),
+    "ITC":("ITC.NS","Stock-FMCG"),
+    "Nestle India":("NESTLEIND.NS","Stock-FMCG"),
+    "Britannia":("BRITANNIA.NS","Stock-FMCG"),
+    "Dabur India":("DABUR.NS","Stock-FMCG"),
+    "Marico":("MARICO.NS","Stock-FMCG"),
+    "Godrej Consumer":("GODREJCP.NS","Stock-FMCG"),
+    "Tata Consumer":("TATACONSUM.NS","Stock-FMCG"),
+    "Varun Beverages":("VBL.NS","Stock-FMCG"),
+    "Emami":("EMAMILTD.NS","Stock-FMCG"),
+    "Colgate Palmolive":("COLPAL.NS","Stock-FMCG"),
+    "Maruti Suzuki":("MARUTI.NS","Stock-Auto"),
+    "Tata Motors":("TATAMOTORS.NS","Stock-Auto"),
+    "Mahindra":("M&M.NS","Stock-Auto"),
+    "Hero MotoCorp":("HEROMOTOCO.NS","Stock-Auto"),
+    "Bajaj Auto":("BAJAJ-AUTO.NS","Stock-Auto"),
+    "Eicher Motors":("EICHERMOT.NS","Stock-Auto"),
+    "TVS Motor":("TVSMOTOR.NS","Stock-Auto"),
+    "Ashok Leyland":("ASHOKLEY.NS","Stock-Auto"),
+    "MRF":("MRF.NS","Stock-Auto"),
+    "Apollo Tyres":("APOLLOTYRE.NS","Stock-Auto"),
+    "CEAT":("CEATLTD.NS","Stock-Auto"),
+    "Exide Industries":("EXIDEIND.NS","Stock-Auto"),
+    "Bharat Forge":("BHARATFORG.NS","Stock-Auto"),
+    "Sona BLW":("SONACOMS.NS","Stock-Auto"),
+    "Uno Minda":("UNOMINDA.NS","Stock-Auto"),
+    "Sun Pharmaceutical":("SUNPHARMA.NS","Stock-Pharma"),
+    "Dr Reddys":("DRREDDY.NS","Stock-Pharma"),
+    "Cipla":("CIPLA.NS","Stock-Pharma"),
+    "Divis Laboratories":("DIVISLAB.NS","Stock-Pharma"),
+    "Biocon":("BIOCON.NS","Stock-Pharma"),
+    "Lupin":("LUPIN.NS","Stock-Pharma"),
+    "Aurobindo Pharma":("AUROPHARMA.NS","Stock-Pharma"),
+    "Torrent Pharma":("TORNTPHARM.NS","Stock-Pharma"),
+    "Alkem Labs":("ALKEM.NS","Stock-Pharma"),
+    "Apollo Hospitals":("APOLLOHOSP.NS","Stock-Pharma"),
+    "Fortis Healthcare":("FORTIS.NS","Stock-Pharma"),
+    "Zydus Lifesciences":("ZYDUSLIFE.NS","Stock-Pharma"),
+    "Laurus Labs":("LAURUSLABS.NS","Stock-Pharma"),
+    "Max Healthcare":("MAXHEALTH.NS","Stock-Pharma"),
+    "Dr Lal Pathlabs":("LALPATHLAB.NS","Stock-Pharma"),
+    "Reliance Industries":("RELIANCE.NS","Stock-Energy"),
+    "ONGC":("ONGC.NS","Stock-Energy"),
+    "Coal India":("COALINDIA.NS","Stock-Energy"),
+    "NTPC":("NTPC.NS","Stock-Energy"),
+    "Power Grid":("POWERGRID.NS","Stock-Energy"),
+    "Adani Enterprises":("ADANIENT.NS","Stock-Energy"),
+    "Adani Ports":("ADANIPORTS.NS","Stock-Energy"),
+    "Adani Green":("ADANIGREEN.NS","Stock-Energy"),
+    "Tata Power":("TATAPOWER.NS","Stock-Energy"),
+    "GAIL":("GAIL.NS","Stock-Energy"),
+    "IOC":("IOC.NS","Stock-Energy"),
+    "BPCL":("BPCL.NS","Stock-Energy"),
+    "Hindustan Petroleum":("HINDPETRO.NS","Stock-Energy"),
+    "Torrent Power":("TORNTPOWER.NS","Stock-Energy"),
+    "JSW Energy":("JSWENERGY.NS","Stock-Energy"),
+    "Gujarat Gas":("GUJGASLTD.NS","Stock-Energy"),
+    "Oil India":("OIL.NS","Stock-Energy"),
+    "Tata Steel":("TATASTEEL.NS","Stock-Metal"),
+    "JSW Steel":("JSWSTEEL.NS","Stock-Metal"),
+    "Hindalco":("HINDALCO.NS","Stock-Metal"),
+    "Vedanta":("VEDL.NS","Stock-Metal"),
+    "SAIL":("SAIL.NS","Stock-Metal"),
+    "NMDC":("NMDC.NS","Stock-Metal"),
+    "Jindal Steel":("JINDALSTEL.NS","Stock-Metal"),
+    "APL Apollo":("APLAPOLLO.NS","Stock-Metal"),
+    "Hindustan Zinc":("HINDZINC.NS","Stock-Metal"),
+    "Larsen & Toubro":("LT.NS","Stock-Infra"),
+    "Siemens India":("SIEMENS.NS","Stock-Infra"),
+    "ABB India":("ABB.NS","Stock-Infra"),
+    "Havells India":("HAVELLS.NS","Stock-Infra"),
+    "Voltas":("VOLTAS.NS","Stock-Infra"),
+    "Polycab":("POLYCAB.NS","Stock-Infra"),
+    "KEI Industries":("KEI.NS","Stock-Infra"),
+    "Cummins India":("CUMMINSIND.NS","Stock-Infra"),
+    "Bharat Electronics":("BEL.NS","Stock-Infra"),
+    "HAL":("HAL.NS","Stock-Infra"),
+    "IRCTC":("IRCTC.NS","Stock-Infra"),
+    "Dixon Technologies":("DIXON.NS","Stock-Infra"),
+    "Crompton":("CROMPTON.NS","Stock-Infra"),
+    "Blue Star":("BLUESTARCO.NS","Stock-Infra"),
+    "V-Guard":("VGUARD.NS","Stock-Infra"),
+    "KEC International":("KEC.NS","Stock-Infra"),
+    "Thermax":("THERMAX.NS","Stock-Infra"),
+    "Bharti Airtel":("BHARTIARTL.NS","Stock-Telecom"),
+    "Indus Towers":("INDUSTOWER.NS","Stock-Telecom"),
+    "Zomato":("ZOMATO.NS","Stock-Consumer"),
+    "Paytm":("PAYTM.NS","Stock-Consumer"),
+    "Nykaa":("NYKAA.NS","Stock-Consumer"),
+    "PolicyBazaar":("POLICYBZR.NS","Stock-Consumer"),
+    "Delhivery":("DELHIVERY.NS","Stock-Consumer"),
+    "Info Edge":("NAUKRI.NS","Stock-Consumer"),
+    "Trent":("TRENT.NS","Stock-Consumer"),
+    "Indiamart":("INDIAMART.NS","Stock-Consumer"),
+    "DLF":("DLF.NS","Stock-Realty"),
+    "Godrej Properties":("GODREJPROP.NS","Stock-Realty"),
+    "Oberoi Realty":("OBEROIRLTY.NS","Stock-Realty"),
+    "Prestige Estates":("PRESTIGE.NS","Stock-Realty"),
+    "Sobha":("SOBHA.NS","Stock-Realty"),
+    "Brigade Enterprises":("BRIGADE.NS","Stock-Realty"),
+    "Asian Paints":("ASIANPAINT.NS","Stock-Chemicals"),
+    "Berger Paints":("BERGEPAINT.NS","Stock-Chemicals"),
+    "Pidilite":("PIDILITIND.NS","Stock-Chemicals"),
+    "SRF Ltd":("SRF.NS","Stock-Chemicals"),
+    "Aarti Industries":("AARTIIND.NS","Stock-Chemicals"),
+    "PI Industries":("PIIND.NS","Stock-Chemicals"),
+    "UPL":("UPL.NS","Stock-Chemicals"),
+    "Deepak Nitrite":("DEEPAKNTR.NS","Stock-Chemicals"),
+    "Navin Fluorine":("NAVINFLUOR.NS","Stock-Chemicals"),
+    "Vinati Organics":("VINATIORGA.NS","Stock-Chemicals"),
+    "Coromandel Intl":("COROMANDEL.NS","Stock-Chemicals"),
+    "Chambal Fertilizers":("CHAMBLFERT.NS","Stock-Chemicals"),
+    "Tata Chemicals":("TATACHEM.NS","Stock-Chemicals"),
+    "Avenue Supermarts":("DMART.NS","Stock-Retail"),
+    "Titan Company":("TITAN.NS","Stock-Retail"),
+    "Jubilant Foodworks":("JUBLFOOD.NS","Stock-Retail"),
+    "Page Industries":("PAGEIND.NS","Stock-Retail"),
+    "Bata India":("BATAINDIA.NS","Stock-Retail"),
+    "Kalyan Jewellers":("KALYANKJIL.NS","Stock-Retail"),
+    "Astral":("ASTRAL.NS","Stock-Retail"),
+    "Supreme Industries":("SUPREMEIND.NS","Stock-Retail"),
+    "PVR Inox":("PVRINOX.NS","Stock-Retail"),
+    "Sun TV":("SUNTV.NS","Stock-Media"),
+    "Zee Entertainment":("ZEEL.NS","Stock-Media"),
 }
 ASSET_UNIVERSE = {**INDEX_UNIVERSE, **STOCK_UNIVERSE}
 
@@ -221,73 +379,54 @@ with st.sidebar:
         for a in INDEX_UNIVERSE:
             if st.checkbox(a, value=(a in defaults), key=f"cb_{a}"):
                 selected_assets.append(a)
-    with st.expander("Stocks — Nifty 500 (300+ stocks)"):
-        SECTORS_SB = {
-            "All": [],
-            "Banking & Finance": ["Bank","Finance","Housing","PFC","REC","IDFC","Federal","Baroda","Canara","Punjab","Union"],
-            "IT & Technology":   ["TCS","Infosys","HCL","Wipro","Tech Mahindra","LTI","Mphasis","Persistent","Coforge","Tata Elxsi","KPIT","Tanla","Mastek","Zensar","Birlasoft","Cyient","LTTS"],
-            "FMCG & Consumer":   ["Hindustan","ITC","Nestle","Britannia","Dabur","Marico","Godrej","Tata Consumer","Varun","United","Emami"],
-            "Auto & Ancillary":  ["Maruti","Tata Motors","Mahindra","Hero","Bajaj Auto","Eicher","TVS","Ashok","Bosch","MRF","Apollo Tyres","Exide","Motherson","Minda","Bharat Forge"],
-            "Pharma & Health":   ["Sun","Reddys","Cipla","Divis","Biocon","Lupin","Aurobindo","Torrent","Alkem","Abbott","Apollo Hospitals","Fortis","Zydus","Laurus","Metropolis"],
-            "Energy & Oil":      ["Reliance","ONGC","Coal","NTPC","Power Grid","Adani","Tata Power","BHEL","GAIL","IOC","BPCL","Petroleum","Torrent Power"],
-            "Metals & Mining":   ["Tata Steel","JSW Steel","Hindalco","Vedanta","SAIL","NMDC","Jindal","APL Apollo","Hindzinc"],
-            "Infra & Cap Goods": ["Larsen","Siemens","ABB","Havells","Voltas","Polycab","KEI","Cummins","Bharat Electronics","HAL","IRCTC","Dixon","Crompton"],
-            "Pharma & Chemicals":["Asian Paints","Berger","Pidilite","SRF","Aarti","PI Industries","UPL","Deepak","Navin","Astral","Coromandel","Chambal"],
-            "New Age & Telecom": ["Zomato","Paytm","Nykaa","Delhivery","Info Edge","Indiamart","Bharti","Indus"],
-            "Real Estate":       ["DLF","Godrej Properties","Oberoi","Prestige","Sobha","Brigade"],
-        }
-        sector_filter = st.selectbox(
-            "Filter by sector", list(SECTORS_SB.keys()),
+    with st.expander("Stocks — Nifty 500 (200+ stocks)"):
+        sb_sector = st.selectbox(
+            "Filter by sector",
+            ["All","Banking & Finance","IT & Technology","FMCG & Consumer",
+             "Auto & Ancillary","Pharma & Health","Energy & Oil",
+             "Metals & Mining","Infra & Cap Goods","Telecom & New Age",
+             "Real Estate","Chemicals & Specialty","Consumer & Retail"],
             key="sb_sector_filter"
         )
-        if sector_filter == "All":
+        if sb_sector == "All":
             display_stocks = list(STOCK_UNIVERSE.keys())
         else:
-            kws = SECTORS_SB[sector_filter]
+            sector_kw = {
+                "Banking & Finance":  ["Bank","Finance","Housing","PFC","REC","IDFC","Federal","Baroda","Canara","Punjab","Union","Muthoot","Cholamandalam","Shriram","HDFC Life","SBI Life","ICICI Pru","AU Small","Bandhan"],
+                "IT & Technology":    ["TCS","Infosys","HCL","Wipro","Tech Mahindra","LTIMindtree","Mphasis","Persistent","Coforge","Tata Elxsi","KPIT","Happiest","Tanla","Mastek","Zensar","Birlasoft","Cyient","LTTS","Intellect","Newgen","Firstsource"],
+                "FMCG & Consumer":    ["Hindustan Unilever","ITC","Nestle","Britannia","Dabur","Marico","Godrej Consumer","Tata Consumer","Varun","Emami","Colgate","Jyothy","Bikaji","Patanjali"],
+                "Auto & Ancillary":   ["Maruti","Tata Motors","Mahindra","Hero","Bajaj Auto","Eicher","TVS Motor","Ashok","Bosch","MRF","Apollo Tyres","CEAT","Exide","Motherson","Bharat Forge","Endurance","Sona","Uno Minda","Samvardhana"],
+                "Pharma & Health":    ["Sun Pharmaceutical","Dr Reddys","Cipla","Divis","Biocon","Lupin","Aurobindo","Torrent Pharma","Alkem","Abbott","Max Healthcare","Apollo Hospitals","Fortis","Zydus","Gland","Laurus","Ipca","Ajanta","Metropolis","Dr Lal"],
+                "Energy & Oil":       ["Reliance","ONGC","Coal India","NTPC","Power Grid","Adani","Tata Power","GAIL","IOC","BPCL","Hindustan Petroleum","Torrent Power","JSW Energy","Petronet","Oil India","Gujarat Gas"],
+                "Metals & Mining":    ["Tata Steel","JSW Steel","Hindalco","Vedanta","SAIL","NMDC","Jindal Steel","APL Apollo","Hindustan Zinc","National Aluminium","Ratnamani"],
+                "Infra & Cap Goods":  ["Larsen","Siemens","ABB","Havells","Voltas","Polycab","KEI","Cummins","Bharat Electronics","HAL","IRCTC","Dixon","Crompton","Blue Star","V-Guard","KEC","Kalpataru","Thermax","NCC","IRB"],
+                "Telecom & New Age":  ["Bharti Airtel","Indus Towers","Zomato","Paytm","Nykaa","PolicyBazaar","Delhivery","Info Edge","Trent","Indiamart"],
+                "Real Estate":        ["DLF","Godrej Properties","Oberoi","Prestige","Sobha","Brigade"],
+                "Chemicals & Specialty":["Asian Paints","Berger","Pidilite","SRF","Aarti","PI Industries","UPL","Deepak","Navin Fluorine","Vinati","Atul","Tata Chemicals","Coromandel","Chambal"],
+                "Consumer & Retail":  ["Avenue Supermarts","Titan","Jubilant","Page Industries","Bata","Kalyan","Astral","Supreme","Whirlpool","PVR","Sun TV","Zee"],
+            }
+            kws = sector_kw.get(sb_sector, [])
             display_stocks = [
-                n for n in STOCK_UNIVERSE
-                if any(k.lower() in n.lower() for k in kws)
+                a for a in STOCK_UNIVERSE.keys()
+                if any(k.lower() in a.lower() for k in kws)
             ]
-        st.caption(f"{len(display_stocks)} stocks in {sector_filter}")
+        st.caption(f"{len(display_stocks)} stocks in {sb_sector}")
         for a in display_stocks:
             if st.checkbox(a, value=False, key=f"cb_{a}"):
                 selected_assets.append(a)
-    # Add custom stocks from search
-    if "custom_assets" in st.session_state:
-        for a in st.session_state["custom_assets"]:
-            if a not in selected_assets:
-                selected_assets.append(a)
-                st.sidebar.caption(f"+ {a} (custom)")
-
-    # Always ensure minimum default assets are included
-    default_always = ["Nifty 50", "Nifty Midcap", "Gold ETF",
-                      "G-Sec Bond", "Bharat Bond 2030", "REIT"]
-    for a in default_always:
-        if a not in selected_assets:
-            selected_assets.append(a)
 
     st.markdown("#### Risk Profile (Q1-10)")
     QUESTIONS = [
-        ("Horizon?",
-         ["<1yr(1)","1-3yr(2)","3-5yr(3)","5-10yr(4)",">10yr(5)"]),
-        ("Emergency fund?",
-         ["None(1)","1-3mo(2)","3-6mo(4)",">6mo(5)"]),
-        ("Income?",
-         ["Irregular(1)","Business(2)","Salaried(3)","Govt(4)","Multiple(5)"]),
-        ("Obligations?",
-         [">70%(1)","50-70%(2)","30-50%(3)","10-30%(4)","<10%(5)"]),
-        ("Drop 25%?",
-         ["Sell all(1)","Sell most(2)","Hold(3)","Hold+buy(4)","Buy more(5)"]),
-        ("Max loss?",
-         ["None(1)","<5%(2)","5-15%(3)","15-30%(4)",">30%(5)"]),
-        ("Emotional?",
-         ["Severe(1)","High(2)","Moderate(3)","Low(4)","Minimal(5)"]),
-        ("Experience?",
-         ["FDs(1)","MF SIP(2)","MF+eq(3)","Deriv(4)","PMS(5)"]),
-        ("Knowledge?",
-         ["None(1)","Basic(2)","Moderate(3)","Good(4)","Expert(5)"]),
-        ("REITs/ETFs?",
-         ["Never(1)","Heard(2)","1of3(3)","2of3(4)","All3(5)"]),
+        ("Horizon?",     ["<1yr(1)","1-3yr(2)","3-5yr(3)","5-10yr(4)",">10yr(5)"]),
+        ("Emergency?",   ["None(1)","1-3mo(2)","3-6mo(4)",">6mo(5)"]),
+        ("Income?",      ["Irregular(1)","Business(2)","Salaried(3)","Govt(4)","Multiple(5)"]),
+        ("Obligations?", [">70%(1)","50-70%(2)","30-50%(3)","10-30%(4)","<10%(5)"]),
+        ("Drop 25%?",    ["Sell all(1)","Sell most(2)","Hold(3)","Hold+buy(4)","Buy more(5)"]),
+        ("Max loss?",    ["None(1)","<5%(2)","5-15%(3)","15-30%(4)",">30%(5)"]),
+        ("Emotional?",   ["Severe(1)","High(2)","Moderate(3)","Low(4)","Minimal(5)"]),
+        ("Experience?",  ["FDs(1)","MF SIP(2)","MF+eq(3)","Deriv(4)","PMS(5)"]),
+        ("Knowledge?",   ["None(1)","Basic(2)","Moderate(3)","Good(4)","Expert(5)"]),
+        ("REITs/ETFs?",  ["Never(1)","Heard(2)","1of3(3)","2of3(4)","All3(5)"]),
     ]
     scores = []
     for i,(q,opts) in enumerate(QUESTIONS,1):
@@ -315,20 +454,17 @@ with st.sidebar:
 # ═══════════════════════════════════════════════════════════════════════════════
 # LOAD DATA
 # ═══════════════════════════════════════════════════════════════════════════════
+if len(selected_assets) < 2:
+    selected_assets = ["Nifty 50","Gold ETF","G-Sec Bond","Bharat Bond 2030","REIT"]
+
 with st.spinner("Loading market data..."):
     result = load_data(tuple(sorted(selected_assets)))
 
 daily_returns, ann_returns, cov, assets, prices = result
 
 if daily_returns is None:
-    # Force load with default assets regardless of sidebar selection
-    fallback = ["Nifty 50","Nifty Midcap","Gold ETF",
-                "G-Sec Bond","Bharat Bond 2030","REIT"]
-    result = load_data(tuple(sorted(fallback)))
-    daily_returns, ann_returns, cov, assets, prices = result
-    if daily_returns is None:
-        st.error("Could not load data. Check internet connection.")
-        st.stop()
+    st.error("Could not load data. Please select more assets.")
+    st.stop()
 
 n         = len(assets)
 RISK_FREE = 0.065
@@ -361,6 +497,7 @@ st.markdown(f"""
 # ═══════════════════════════════════════════════════════════════════════════════
 tabs = st.tabs([
     "📊 Portfolio Builder",
+    "🔭 Forward Returns",
     "📡 Live Tracker",
     "🔍 Stock Search",
     "📉 Charts & TA",
@@ -376,8 +513,10 @@ tabs = st.tabs([
     "⚙️ Backtester",
     "🔄 Walk-Forward",
 ])
-(tab1,tab2,tab3,tab4,tab5,tab6,tab7,tab8,tab9,tab10,tab11,tab12,tab13,tab14,tab15) = tabs
-# ── TAB 1 — Portfolio Builder ────────────────────────────────────────────────
+(tab1,tab2,tab3,tab4,tab5,tab6,tab7,tab8,
+ tab9,tab10,tab11,tab12,tab13,tab14,tab15,tab16) = tabs
+
+# ── TAB 1 — Portfolio Builder ─────────────────────────────────────────────────
 with tab1:
     import pandas as pd
     active_weights, active_metrics = render_portfolio_builder(
@@ -386,7 +525,7 @@ with tab1:
         annual_topup, goal_amount, goal_years, inflation, name_disp
     )
 
-# Read shared portfolio from session state — used by ALL tabs
+# Read shared state
 w_raw = st.session_state.get("active_weights", [1/n]*n)
 port_weights = np.array(w_raw)
 if len(port_weights) != n:
@@ -399,142 +538,178 @@ m = st.session_state.get("active_metrics", {
 })
 port = {**m, "weights": port_weights, "name": PROFILE_NAMES[pid]}
 
-# ── TAB 2 — Live Tracker ─────────────────────────────────────────────────────
+# ── TAB 2 — Forward Returns ───────────────────────────────────────────────────
 with tab2:
+    render_future_returns(
+        assets, ann_returns, cov, port_weights,
+        total_investable, goal_amount, goal_years, pid
+    )
+
+# ── TAB 3 — Live Tracker ─────────────────────────────────────────────────────
+with tab3:
     render_realtime_tab(assets, port_weights, total_investable)
 
-# ── TAB 3 — Stock Search ─────────────────────────────────────────────────────
-with tab3:
-    st.markdown("#### NSE / BSE Stock Search")
-    st.caption("Search and add any stock. Tick it in the sidebar to include in portfolio.")
-    custom_assets = st.session_state.get("custom_assets", [])
-    custom_au     = st.session_state.get("custom_asset_universe", {})
-    updated_assets, updated_au = render_stock_search(custom_assets, custom_au)
-    st.session_state["custom_assets"]         = updated_assets
-    st.session_state["custom_asset_universe"] = updated_au
-    if updated_assets:
-        st.info(f"Added: {', '.join(updated_assets)}. Tick them in sidebar to include in portfolio.")
-
-# ── TAB 4 — Charts & TA ──────────────────────────────────────────────────────
+# ── TAB 4 — Stock Search ─────────────────────────────────────────────────────
 with tab4:
+    st.markdown("#### NSE / BSE Stock Search")
+    st.caption("Search by name. Tick stocks below to add — they appear in sidebar automatically.")
+    sq = st.text_input("Search stock", placeholder="e.g. Reliance, TCS, HDFC",
+                        key="tab_search_q")
+    if sq and len(sq) >= 2:
+        matches = {a: v for a,v in STOCK_UNIVERSE.items()
+                   if sq.lower() in a.lower()}
+        st.caption(f"{len(matches)} results for '{sq}'")
+        if matches:
+            mcols = st.columns(3)
+            for idx,(name,val) in enumerate(matches.items()):
+                ticker = val[0]
+                already = name in selected_assets
+                with mcols[idx%3]:
+                    chk = st.checkbox(
+                        f"{"✅ " if already else ""}{name} ({ticker})",
+                        value=already, key=f"tab_chk_{idx}"
+                    )
+                    if chk and name not in selected_assets:
+                        selected_assets.append(name)
+                        st.rerun()
+                    elif not chk and name in selected_assets:
+                        selected_assets.remove(name)
+                        st.rerun()
+        else:
+            st.info("No matches found.")
+    else:
+        st.info("Type at least 2 characters to search 200+ Nifty 500 stocks.")
+        st.markdown("**Popular stocks:**")
+        pop = ["HDFC Bank","TCS","Reliance Industries","Infosys","ICICI Bank",
+               "Tata Motors","Sun Pharmaceutical","Maruti Suzuki","Zomato","Bajaj Finance"]
+        pcols = st.columns(5)
+        for i,name in enumerate(pop):
+            if name in STOCK_UNIVERSE:
+                with pcols[i%5]:
+                    st.code(f"{name}\n{STOCK_UNIVERSE[name][0]}")
+    st.markdown("---")
+    st.markdown("**Add any custom ticker (NSE/BSE/US):**")
+    cc1,cc2 = st.columns([2,1])
+    ct = cc1.text_input("Ticker e.g. RELIANCE.NS", key="ct_input").strip().upper()
+    cn = cc2.text_input("Display name", key="cn_input").strip()
+    if st.button("Add Custom", key="ct_add_btn"):
+        if ct:
+            import yfinance as _yf2
+            from datetime import date as _date2
+            try:
+                _r = _yf2.download(ct, start="2020-01-01",
+                                   end=_date2.today().strftime("%Y-%m-%d"),
+                                   auto_adjust=True, progress=False)
+                if not _r.empty:
+                    _dn = cn or ct
+                    ASSET_UNIVERSE[_dn] = (ct, "Stock-Custom")
+                    STOCK_UNIVERSE[_dn] = (ct, "Stock-Custom")
+                    if _dn not in selected_assets:
+                        selected_assets.append(_dn)
+                    st.success(f"Added {_dn}!")
+                    st.rerun()
+                else:
+                    st.error("No data. Check ticker.")
+            except Exception as e:
+                st.error(f"Error: {e}")
+
+# ── TAB 5 — Charts & TA ──────────────────────────────────────────────────────
+with tab5:
     render_charts_tab()
 
-# ── TAB 5 — Rebalancing ──────────────────────────────────────────────────────
-with tab5:
+# ── TAB 6 — Rebalancing ──────────────────────────────────────────────────────
+with tab6:
     st.markdown("#### Rebalancing")
     st.caption("Enter current holdings. Target = your Tab 1 portfolio.")
-    inp = st.columns(3); uv = {}
-    for i, a in enumerate(assets):
-        uv[a] = inp[i%3].number_input(
-            a, 0, int(1e9),
+    inp=st.columns(3); uv={}
+    for i,a in enumerate(assets):
+        uv[a]=inp[i%3].number_input(a,0,int(1e9),
             int(port_weights[i]*total_investable),
-            step=10000, key=f"h_{a}")
-    tp = sum(uv.values())
-    if tp > 0:
-        cw = {a: v/tp for a,v in uv.items()}
-        tw = dict(zip(assets, port_weights))
+            step=10000,key=f"h_{a}")
+    tp=sum(uv.values())
+    if tp>0:
+        cw={a:v/tp for a,v in uv.items()}
+        tw=dict(zip(assets,port_weights))
         st.markdown(f"**Total: Rs.{tp:,.0f}**")
-        gr = []
+        gr=[]
         for a in assets:
-            c = cw[a]*100; t = tw[a]*100; g = c-t
-            act = "TRIM" if g>3 else "ADD" if g<-3 else "HOLD"
-            gr.append({
-                "Asset": a, "Current %": f"{c:.1f}%",
-                "Target %": f"{t:.1f}%", "Gap": f"{g:+.1f}%",
-                "Action": act,
-                "Amount": f"{'Sell' if act=='TRIM' else 'Buy' if act=='ADD' else 'Hold'} Rs.{abs(g/100)*tp:,.0f}"
-            })
-        st.dataframe(pd.DataFrame(gr), hide_index=True, use_container_width=True)
-        if any(r["Action"] != "HOLD" for r in gr):
-            st.warning("Rebalancing recommended.")
+            c=cw[a]*100; t=tw[a]*100; g=c-t
+            act="TRIM" if g>3 else "ADD" if g<-3 else "HOLD"
+            gr.append({"Asset":a,"Current %":f"{c:.1f}%",
+                       "Target %":f"{t:.1f}%","Gap":f"{g:+.1f}%","Action":act,
+                       "Amount":f"{'Sell' if act=='TRIM' else 'Buy' if act=='ADD' else 'Hold'} Rs.{abs(g/100)*tp:,.0f}"})
+        import pandas as pd
+        st.dataframe(pd.DataFrame(gr),hide_index=True,use_container_width=True)
+        if any(r["Action"]!="HOLD" for r in gr):
+            st.warning("Rebalancing needed.")
         else:
             st.success("Portfolio aligned with target.")
-        fig_rb = go.Figure()
-        fig_rb.add_trace(go.Bar(x=assets, y=[cw[a]*100 for a in assets],
-            name="Current",
-            marker_color=["#f85149" if cw[a]>tw[a]+0.03
-                          else "#3fb950" if cw[a]<tw[a]-0.03
-                          else "#555" for a in assets], opacity=0.85))
-        fig_rb.add_trace(go.Bar(x=assets, y=[tw[a]*100 for a in assets],
-            name="Target (Tab 1)", marker_color="#58a6ff", opacity=0.65))
-        fig_rb.update_layout(
-            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="#161b22",
-            font_color="white", barmode="group", xaxis_tickangle=-30,
-            yaxis_title="Weight (%)", height=350,
-            margin=dict(t=10,b=80,l=50,r=20),
-            legend=dict(bgcolor="rgba(0,0,0,0)"))
-        st.plotly_chart(fig_rb, use_container_width=True)
 
-# ── TAB 6 — Tax ──────────────────────────────────────────────────────────────
-with tab6:
+# ── TAB 7 — Tax ──────────────────────────────────────────────────────────────
+with tab7:
     st.markdown("#### Tax Optimisation — FY2024-25")
-    st.caption("Tax calculated on YOUR Tab 1 portfolio.")
-    st.info("Equity LTCG 12.5% above Rs.1.25L | Debt/Gold at slab rate | SGB tax-free at 8yr")
-    TAX_RULES = {
-        "Equity":   {"stcg":0.20,"ltcg":0.125,"ex":125000,"mo":12},
-        "Gold ETF": {"stcg":None,"ltcg":None,  "ex":0,     "mo":12},
-        "Debt MF":  {"stcg":None,"ltcg":None,  "ex":0,     "mo":36},
-    }
-    def calc_tax(a, pd_, pp, cp, un, sl, lu=0):
-        cat = TAX_CAT.get(ASSET_UNIVERSE.get(a,("","Equity-LC"))[1], "Equity")
-        r   = TAX_RULES.get(cat, TAX_RULES["Equity"])
-        g   = (cp-pp)*un
-        mh  = (date.today().year-pd_.year)*12+(date.today().month-pd_.month)
-        is_lt = mh >= r["mo"]
-        if cat == "Equity":
-            tx = (max(0,g)*r["stcg"] if not is_lt
-                  else max(0,g-max(0,r["ex"]-lu))*r["ltcg"])
+    st.info("Equity LTCG 12.5% above Rs.1.25L | Debt/Gold at slab rate")
+    import pandas as pd
+    from datetime import date, timedelta
+    TAX_RULES={"Equity":{"stcg":0.20,"ltcg":0.125,"ex":125000,"mo":12},
+               "Gold ETF":{"stcg":None,"ltcg":None,"ex":0,"mo":12},
+               "Debt MF":{"stcg":None,"ltcg":None,"ex":0,"mo":36}}
+    TAX_CAT={"Equity-LC":"Equity","Equity-MC":"Equity","Equity-SC":"Equity",
+             "Sectoral":"Equity","Intl-Eq":"Equity","Debt-Sov":"Debt MF",
+             "Debt-TM":"Debt MF","Gold":"Gold ETF","Silver":"Gold ETF",
+             "REIT":"Equity","Stock-Bank":"Equity","Stock-IT":"Equity",
+             "Stock-Finance":"Equity","Stock-FMCG":"Equity","Stock-Auto":"Equity",
+             "Stock-Pharma":"Equity","Stock-Energy":"Equity","Stock-Infra":"Equity",
+             "Stock-Metal":"Equity","Stock-Consumer":"Equity","Stock-Custom":"Equity",
+             "Stock-Telecom":"Equity","Stock-Realty":"Equity","Stock-Chemicals":"Equity",
+             "Stock-Retail":"Equity","Stock-Media":"Equity"}
+    tx1,tx2,tx3=st.columns(3)
+    ti=tx1.number_input("Invested (Rs.)",value=int(total_investable),step=100000,key="txi")
+    yh=tx2.slider("Years held",1,10,3,key="tyh")
+    sl=tx3.selectbox("Tax slab",["5%","10%","20%","30%"],index=3,key="tsl")
+    slr=int(sl.replace("%",""))/100
+    pd_=date.today()-timedelta(days=365*yh)
+    ARET={a:float(ann_returns[a]) for a in assets}
+    hc={a:{"u":ti*port_weights[assets.index(a)]/100,"pp":100.0,
+           "cp":100*(1+ARET[a])**yh} for a in assets}
+    def calc_tax(a,pp,cp,un,sl2,lu=0):
+        cat=TAX_CAT.get(ASSET_UNIVERSE.get(a,("","Equity-LC"))[1],"Equity")
+        r=TAX_RULES.get(cat,TAX_RULES["Equity"])
+        g=(cp-pp)*un
+        mh=(date.today().year-pd_.year)*12+(date.today().month-pd_.month)
+        is_lt=mh>=r["mo"]
+        if cat=="Equity":
+            tx=(max(0,g)*r["stcg"] if not is_lt else max(0,g-max(0,r["ex"]-lu))*r["ltcg"])
         else:
-            tx = max(0,g)*sl
+            tx=max(0,g)*sl2
         return {"gross":round(g,2),"tax":round(tx,2),"post":round(g-tx,2),
-                "type":"LTCG" if is_lt else "STCG",
-                "eff":round(tx/g*100 if g>0 else 0,1)}
-    tx1,tx2,tx3 = st.columns(3)
-    ti  = tx1.number_input("Invested (Rs.)", value=int(total_investable), step=100000, key="txi")
-    yh  = tx2.slider("Years held", 1, 10, 3, key="tyh")
-    sl  = tx3.selectbox("Tax slab", ["5%","10%","20%","30%"], index=3, key="tsl")
-    slr = int(sl.replace("%",""))/100
-    pd_ = date.today()-timedelta(days=365*yh)
-    ARET = {a: float(ann_returns[a]) for a in assets}
-    hc = {a: {"u": ti*port_weights[assets.index(a)]/100,
-               "pp": 100.0, "cp": 100*(1+ARET[a])**yh}
-          for a in assets}
+                "type":"LTCG" if is_lt else "STCG","eff":round(tx/g*100 if g>0 else 0,1)}
     def rsc(fr):
         tg=tt=tp_=lu=0.0; rows=[]
         for a,f in fr.items():
             if f==0 or a not in hc: continue
-            h = hc[a]
-            r = calc_tax(a,pd_,h["pp"],h["cp"],h["u"]*f,slr,lu)
-            if r["type"]=="LTCG": lu = min(125000,lu+r["gross"])
-            rows.append({"Asset":a,**r})
-            tg+=r["gross"]; tt+=r["tax"]; tp_+=r["post"]
+            h=hc[a]; r=calc_tax(a,h["pp"],h["cp"],h["u"]*f,slr,lu)
+            if r["type"]=="LTCG": lu=min(125000,lu+r["gross"])
+            rows.append({"Asset":a,**r}); tg+=r["gross"]; tt+=r["tax"]; tp_+=r["post"]
         return rows,round(tg),round(tt),round(tp_),round(tt/tg*100 if tg>0 else 0,1)
-    eq_a = [a for a in assets
-            if TAX_CAT.get(ASSET_UNIVERSE.get(a,("","Equity-LC"))[1],"Equity")=="Equity"]
-    sc_a = rsc({a:1.0  for a in assets})
-    sc_b = rsc({a:(0.15 if a in eq_a else 0.0) for a in assets})
-    sc_c = rsc({a:1/12 for a in assets})
-    tx_df = pd.DataFrame([
-        {"Scenario":"Full Exit",   "Tax":f"Rs.{sc_a[2]:,}","Rate":f"{sc_a[4]}%","Saved":"—"},
-        {"Scenario":"Trim 15%",    "Tax":f"Rs.{sc_b[2]:,}","Rate":f"{sc_b[4]}%",
-         "Saved":f"Rs.{sc_a[2]-sc_b[2]:,}"},
-        {"Scenario":"Staged/12mo","Tax":f"Rs.{sc_c[2]:,}","Rate":f"{sc_c[4]}%",
-         "Saved":f"Rs.{sc_a[2]-sc_c[2]:,}"},
+    eq_a=[a for a in assets if TAX_CAT.get(ASSET_UNIVERSE.get(a,("","Equity-LC"))[1],"Equity")=="Equity"]
+    sc_a=rsc({a:1.0 for a in assets})
+    sc_b=rsc({a:(0.15 if a in eq_a else 0.0) for a in assets})
+    sc_c=rsc({a:1/12 for a in assets})
+    tx_df=pd.DataFrame([
+        {"Scenario":"Full Exit","Tax":f"Rs.{sc_a[2]:,}","Rate":f"{sc_a[4]}%","Saved":"—"},
+        {"Scenario":"Trim 15%","Tax":f"Rs.{sc_b[2]:,}","Rate":f"{sc_b[4]}%","Saved":f"Rs.{sc_a[2]-sc_b[2]:,}"},
+        {"Scenario":"Staged/12mo","Tax":f"Rs.{sc_c[2]:,}","Rate":f"{sc_c[4]}%","Saved":f"Rs.{sc_a[2]-sc_c[2]:,}"},
     ])
-    st.dataframe(tx_df, hide_index=True, use_container_width=True)
-    st.success(f"Staging exit saves Rs.{sc_a[2]-sc_c[2]:,} in tax vs full exit today.")
-    rdf = pd.DataFrame(sc_a[0])[["Asset","gross","tax","post","type","eff"]]
-    rdf.columns = ["Asset","Gross","Tax","Post-Tax","Type","Eff.%"]
-    for c in ["Gross","Tax","Post-Tax"]:
-        rdf[c] = rdf[c].apply(lambda x: f"Rs.{x:,.0f}")
-    st.dataframe(rdf, hide_index=True, use_container_width=True)
+    st.dataframe(tx_df,hide_index=True,use_container_width=True)
+    st.success(f"Staging exit saves Rs.{sc_a[2]-sc_c[2]:,} vs full exit.")
 
-# ── TAB 7 — Glossary ─────────────────────────────────────────────────────────
-with tab7:
+# ── TAB 8 — Glossary ─────────────────────────────────────────────────────────
+with tab8:
     glossary_page()
 
-# ── TAB 8 — Benchmarks ───────────────────────────────────────────────────────
-with tab8:
+# ── TAB 9 — Benchmarks ───────────────────────────────────────────────────────
+with tab9:
     render_benchmark_tab(
         daily_returns, assets, port_weights,
         {"return":m["return"],"vol":m["vol"],
@@ -542,14 +717,15 @@ with tab8:
         PROFILE_NAMES[pid]
     )
 
-# ── TAB 9 — Factor ───────────────────────────────────────────────────────────
-with tab9:
+# ── TAB 10 — Factor ──────────────────────────────────────────────────────────
+with tab10:
     render_factor_tab(daily_returns, assets, port_weights, ann_returns)
 
-# ── TAB 10 — Efficient Frontier ──────────────────────────────────────────────
-with tab10:
+# ── TAB 11 — Efficient Frontier ──────────────────────────────────────────────
+with tab11:
+    import pandas as pd
     st.markdown("#### Efficient Frontier")
-    st.caption("Your portfolio (star) vs 4,000 random portfolios. Update Tab 1 to move your position.")
+    st.caption("Your portfolio (star) vs 4,000 random portfolios.")
     N_SIM=4000; np.random.seed(42)
     def p_ret(w): return float(np.dot(w,ann_returns.values))
     def p_vol(w): return float(np.sqrt(w@cov@w))
@@ -569,30 +745,26 @@ with tab10:
     for i,a in enumerate(assets):
         fig_ef.add_trace(go.Scatter(
             x=[np.sqrt(cov[i,i])*100],y=[ann_returns[a]*100],
-            mode="markers+text",
-            marker=dict(color="#aaa",size=7,symbol="diamond"),
-            text=[a],textposition="top right",
-            textfont=dict(color="#777",size=8),
+            mode="markers+text",marker=dict(color="#aaa",size=7,symbol="diamond"),
+            text=[a],textposition="top right",textfont=dict(color="#777",size=8),
             name=a,showlegend=False))
-    fig_ef.update_layout(
-        paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="#161b22",
-        font_color="white",xaxis_title="Volatility (%)",
-        yaxis_title="Return (%)",height=500,
-        margin=dict(t=20,b=40,l=50,r=20),
+    fig_ef.update_layout(paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="#161b22",
+        font_color="white",xaxis_title="Volatility (%)",yaxis_title="Return (%)",
+        height=500,margin=dict(t=20,b=40,l=50,r=20),
         legend=dict(bgcolor="rgba(0,0,0,0)"))
     st.plotly_chart(fig_ef,use_container_width=True)
 
-# ── TAB 11 — Scenarios ───────────────────────────────────────────────────────
-with tab11:
+# ── TAB 12 — Scenarios ───────────────────────────────────────────────────────
+with tab12:
     render_scenario_tab(assets, port_weights, total_investable, ann_returns)
 
-# ── TAB 12 — Stress Test ─────────────────────────────────────────────────────
-with tab12:
+# ── TAB 13 — Stress Test ─────────────────────────────────────────────────────
+with tab13:
+    import pandas as pd
     st.markdown("#### Stress Testing")
-    st.caption("Tests YOUR Tab 1 portfolio against historical crashes.")
     STRESS={"COVID (Feb-Mar 2020)":("2020-02-15","2020-03-23"),
             "2022 Rate Hike":("2022-01-01","2022-06-30"),
-            "Russia-Ukraine 2022":("2022-02-24","2022-03-15")}
+            "Russia-Ukraine":("2022-02-24","2022-03-15")}
     sr=[]
     for sc,(s,e) in STRESS.items():
         try:
@@ -604,18 +776,18 @@ with tab12:
             if "Nifty 50" in assets:
                 ni=assets.index("Nifty 50")
                 n50=(np.prod(1+sc_r.iloc[:,ni].values)-1)*100
-            sr.append({"Scenario":sc,"Your Portfolio":f"{pd_r:.1f}%",
-                       "Nifty 50":f"{n50:.1f}%","Outperformance":f"{pd_r-n50:+.1f}%",
+            sr.append({"Scenario":sc,"Portfolio":f"{pd_r:.1f}%",
+                       "Nifty 50":f"{n50:.1f}%","vs Nifty":f"{pd_r-n50:+.1f}%",
                        "Rs. Impact":f"Rs.{total_investable*pd_r/100:+,.0f}"})
         except Exception:
-            sr.append({"Scenario":sc,"Your Portfolio":"N/A","Nifty 50":"N/A",
-                       "Outperformance":"N/A","Rs. Impact":"N/A"})
+            sr.append({"Scenario":sc,"Portfolio":"N/A","Nifty 50":"N/A",
+                       "vs Nifty":"N/A","Rs. Impact":"N/A"})
     st.dataframe(pd.DataFrame(sr),hide_index=True,use_container_width=True)
     pr_all=daily_returns.values@port_weights
     cum=np.cumprod(1+pr_all); rm=np.maximum.accumulate(cum); dd=(cum-rm)/rm*100
     fig_dd=go.Figure()
     fig_dd.add_trace(go.Scatter(x=daily_returns.index.tolist(),y=dd.tolist(),
-        fill="tozeroy",name="Your Portfolio",line_color="#f85149",
+        fill="tozeroy",name="Portfolio",line_color="#f85149",
         fillcolor="rgba(248,81,73,0.25)"))
     if "Nifty 50" in assets:
         ni=assets.index("Nifty 50")
@@ -624,15 +796,13 @@ with tab12:
         fig_dd.add_trace(go.Scatter(x=daily_returns.index.tolist(),
             y=n50dd.tolist(),name="Nifty 50",line_color="#58a6ff"))
     fig_dd.update_layout(paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="#161b22",
-                          font_color="white",height=320,
-                          margin=dict(t=20,b=40,l=50,r=20),
-                          legend=dict(bgcolor="rgba(0,0,0,0)"))
+        font_color="white",height=320,margin=dict(t=20,b=40,l=50,r=20),
+        legend=dict(bgcolor="rgba(0,0,0,0)"))
     st.plotly_chart(fig_dd,use_container_width=True)
 
-# ── TAB 13 — Monte Carlo ─────────────────────────────────────────────────────
-with tab13:
+# ── TAB 14 — Monte Carlo ─────────────────────────────────────────────────────
+with tab14:
     st.markdown("#### Monte Carlo Simulation")
-    st.caption("Uses your Tab 1 portfolio.")
     mc_yr=st.slider("Horizon",1,30,goal_years,key="mc_yr")
     DAYS=mc_yr*252; N=1000
     mu=m["return"]/252; sig=m["vol"]/np.sqrt(252)
@@ -642,7 +812,7 @@ with tab13:
         paths[:,t]=paths[:,t-1]*(1+np.random.normal(mu,sig,N))
     fv=paths[:,-1]; xa=np.linspace(0,mc_yr,DAYS+1)
     mc1,mc2,mc3,mc4=st.columns(4)
-    mc1.metric(f"Prob reach Rs.{goal_amount/1e6:.0f}M",f"{(fv>=goal_amount).mean()*100:.1f}%")
+    mc1.metric(f"Prob Rs.{goal_amount/1e6:.0f}M",f"{(fv>=goal_amount).mean()*100:.1f}%")
     mc2.metric("Prob 2x",f"{(fv>=total_investable*2).mean()*100:.1f}%")
     mc3.metric("Prob loss",f"{(fv<total_investable).mean()*100:.1f}%")
     mc4.metric("Median",f"Rs.{np.median(fv)/1e6:.2f}M")
@@ -662,9 +832,8 @@ with tab13:
     fig_mc.add_hline(y=goal_amount/1e6,line_dash="dash",line_color="white",
                      annotation_text=f"Goal Rs.{goal_amount/1e6:.1f}M")
     fig_mc.update_layout(paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="#161b22",
-                          font_color="white",height=420,
-                          margin=dict(t=20,b=40,l=50,r=20),
-                          legend=dict(bgcolor="rgba(0,0,0,0)"))
+        font_color="white",height=420,margin=dict(t=20,b=40,l=50,r=20),
+        legend=dict(bgcolor="rgba(0,0,0,0)"))
     st.plotly_chart(fig_mc,use_container_width=True)
     lump_g=total_investable*(1+m["return"])**goal_years
     rem=max(0,goal_amount-lump_g); mo_r2=m["return"]/12; mo2=goal_years*12
@@ -677,14 +846,13 @@ with tab13:
         if monthly_sip>=req: st.success(f"Your SIP of Rs.{monthly_sip:,.0f} is sufficient!")
         else: st.warning(f"Increase SIP by Rs.{req-monthly_sip:,.0f} to reach goal.")
 
-# ── TAB 14 — Backtester ──────────────────────────────────────────────────────
-with tab14:
+# ── TAB 15 — Backtester ──────────────────────────────────────────────────────
+with tab15:
     render_backtester_tab()
 
-# ── TAB 15 — Walk-Forward ────────────────────────────────────────────────────
-with tab15:
+# ── TAB 16 — Walk-Forward ────────────────────────────────────────────────────
+with tab16:
     render_walkforward_tab()
-
 
 st.markdown("---")
 st.caption("WealthPy Labs | Built by Samayak Jain | samayakpjain@gmail.com | Educational only | Consult SEBI advisor before investing")

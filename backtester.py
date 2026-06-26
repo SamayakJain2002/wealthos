@@ -8,11 +8,7 @@ from plotly.subplots import make_subplots
 import yfinance as yf
 from datetime import date
 
-try:
-    import pandas_ta as ta
-    TA_AVAILABLE = True
-except ImportError:
-    TA_AVAILABLE = False
+TA_AVAILABLE = False
 
 NSE_TICKERS = {
     "Nifty 50":"^NSEI","Nifty Midcap":"^NSMIDCP",
