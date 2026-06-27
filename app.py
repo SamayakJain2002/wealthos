@@ -549,69 +549,311 @@ with tab2:
 with tab3:
     render_realtime_tab(assets, port_weights, total_investable)
 
-# ── TAB 4 — Stock Search ─────────────────────────────────────────────────────
+# ── TAB 4 — Stock Analyser ──────────────────────────────────────────────────
 with tab4:
-    st.markdown("#### NSE / BSE Stock Search")
-    st.caption("Search by name. Tick stocks below to add — they appear in sidebar automatically.")
-    sq = st.text_input("Search stock", placeholder="e.g. Reliance, TCS, HDFC",
-                        key="tab_search_q")
-    if sq and len(sq) >= 2:
-        matches = {a: v for a,v in STOCK_UNIVERSE.items()
-                   if sq.lower() in a.lower()}
-        st.caption(f"{len(matches)} results for '{sq}'")
+    import yfinance as _yf
+    import plotly.graph_objects as _go
+    import pandas as _pd
+    import numpy as _np
+
+    st.markdown("#### Stock Analyser — Financial Ratios & DCF Valuation")
+    st.caption(
+        "Search any NSE/BSE stock. Get live financial ratios, "
+        "analyst estimates, and an automated DCF valuation."
+    )
+
+    # Search box
+    col_s1, col_s2 = st.columns([3, 1])
+    stock_query = col_s1.text_input(
+        "Search stock by name",
+        placeholder="e.g. Reliance, TCS, HDFC Bank",
+        key="sa_query"
+    )
+    
+    # Build full ticker map from STOCK_UNIVERSE
+    name_to_ticker = {n: v[0] for n, v in STOCK_UNIVERSE.items()}
+    
+    if stock_query and len(stock_query) >= 2:
+        matches = {n: t for n, t in name_to_ticker.items()
+                   if stock_query.lower() in n.lower()}
         if matches:
-            mcols = st.columns(3)
-            for idx,(name,val) in enumerate(matches.items()):
-                ticker = val[0]
-                already = name in selected_assets
-                with mcols[idx%3]:
-                    chk = st.checkbox(
-                        f"{"✅ " if already else ""}{name} ({ticker})",
-                        value=already, key=f"tab_chk_{idx}"
-                    )
-                    if chk and name not in selected_assets:
-                        selected_assets.append(name)
-                        st.rerun()
-                    elif not chk and name in selected_assets:
-                        selected_assets.remove(name)
-                        st.rerun()
+            selected_name = col_s2.selectbox(
+                "Select", list(matches.keys()), key="sa_select"
+            )
+            selected_ticker = matches[selected_name]
         else:
-            st.info("No matches found.")
+            st.info("No match. Enter ticker directly below.")
+            selected_name   = None
+            selected_ticker = None
     else:
-        st.info("Type at least 2 characters to search 200+ Nifty 500 stocks.")
-        st.markdown("**Popular stocks:**")
-        pop = ["HDFC Bank","TCS","Reliance Industries","Infosys","ICICI Bank",
-               "Tata Motors","Sun Pharmaceutical","Maruti Suzuki","Zomato","Bajaj Finance"]
-        pcols = st.columns(5)
-        for i,name in enumerate(pop):
-            if name in STOCK_UNIVERSE:
-                with pcols[i%5]:
-                    st.code(f"{name}\n{STOCK_UNIVERSE[name][0]}")
-    st.markdown("---")
-    st.markdown("**Add any custom ticker (NSE/BSE/US):**")
-    cc1,cc2 = st.columns([2,1])
-    ct = cc1.text_input("Ticker e.g. RELIANCE.NS", key="ct_input").strip().upper()
-    cn = cc2.text_input("Display name", key="cn_input").strip()
-    if st.button("Add Custom", key="ct_add_btn"):
-        if ct:
-            import yfinance as _yf2
-            from datetime import date as _date2
+        selected_name   = None
+        selected_ticker = None
+
+    # Direct ticker input
+    custom_ticker_sa = st.text_input(
+        "Or enter NSE ticker directly (e.g. RELIANCE.NS)",
+        key="sa_direct_ticker"
+    ).strip().upper()
+    if custom_ticker_sa:
+        selected_ticker = custom_ticker_sa
+        selected_name   = custom_ticker_sa
+
+    if selected_ticker:
+        with st.spinner(f"Fetching data for {selected_ticker}..."):
             try:
-                _r = _yf2.download(ct, start="2020-01-01",
-                                   end=_date2.today().strftime("%Y-%m-%d"),
-                                   auto_adjust=True, progress=False)
-                if not _r.empty:
-                    _dn = cn or ct
-                    ASSET_UNIVERSE[_dn] = (ct, "Stock-Custom")
-                    STOCK_UNIVERSE[_dn] = (ct, "Stock-Custom")
-                    if _dn not in selected_assets:
-                        selected_assets.append(_dn)
-                    st.success(f"Added {_dn}!")
-                    st.rerun()
-                else:
-                    st.error("No data. Check ticker.")
+                _t    = _yf.Ticker(selected_ticker)
+                _info = _t.info
+                _hist = _t.history(period="1y")
             except Exception as e:
-                st.error(f"Error: {e}")
+                st.error(f"Could not fetch data: {e}")
+                _info = {}
+                _hist = _pd.DataFrame()
+
+        if _info:
+            # ── Company header ────────────────────────────────────────────────
+            co_name  = _info.get("longName", selected_name)
+            sector   = _info.get("sector", "N/A")
+            industry = _info.get("industry", "N/A")
+            curr_px  = _info.get("currentPrice") or _info.get("regularMarketPrice", 0)
+            mktcap   = _info.get("marketCap", 0)
+
+            st.markdown(f"""
+            <div style="background:#161b22;border:1px solid #21262d;
+                        border-radius:10px;padding:16px 18px;margin-bottom:16px;">
+                <div style="font-size:20px;font-weight:700;color:#f0f6fc;">
+                    {co_name}</div>
+                <div style="font-size:12px;color:#8b949e;margin-top:4px;">
+                    {sector} | {industry} | {selected_ticker}</div>
+                <div style="font-size:24px;font-weight:800;
+                            color:#3fb950;margin-top:8px;">
+                    Rs.{curr_px:,.2f}
+                    <span style="font-size:13px;color:#8b949e;">
+                        | Mkt Cap: Rs.{mktcap/1e7:,.0f}Cr</span>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+            # ── Price chart ───────────────────────────────────────────────────
+            if not _hist.empty:
+                fig_px = _go.Figure()
+                fig_px.add_trace(_go.Scatter(
+                    x=_hist.index, y=_hist["Close"],
+                    mode="lines", line=dict(color="#3fb950", width=2),
+                    fill="tozeroy", fillcolor="rgba(63,185,80,0.08)"
+                ))
+                fig_px.update_layout(
+                    paper_bgcolor="rgba(0,0,0,0)",
+                    plot_bgcolor="#161b22",
+                    font_color="white", height=200,
+                    margin=dict(t=10,b=30,l=50,r=10),
+                    xaxis=dict(showgrid=False, color="#6e7681"),
+                    yaxis=dict(showgrid=True, gridcolor="#21262d",
+                               color="#6e7681", title="Price (Rs.)")
+                )
+                st.plotly_chart(fig_px, use_container_width=True)
+
+            # ── Key ratios ────────────────────────────────────────────────────
+            st.markdown("#### Key Financial Ratios")
+            
+            pe      = _info.get("trailingPE", 0)
+            fwd_pe  = _info.get("forwardPE", 0)
+            pb      = _info.get("priceToBook", 0)
+            ps      = _info.get("priceToSalesTrailing12Months", 0)
+            ev_eb   = _info.get("enterpriseToEbitda", 0)
+            roe     = _info.get("returnOnEquity", 0)
+            roa     = _info.get("returnOnAssets", 0)
+            npm     = _info.get("profitMargins", 0)
+            gpm     = _info.get("grossMargins", 0)
+            de      = _info.get("debtToEquity", 0)
+            cr      = _info.get("currentRatio", 0)
+            div_y   = _info.get("dividendYield", 0)
+            rev_gr  = _info.get("revenueGrowth", 0)
+            earn_gr = _info.get("earningsGrowth", 0)
+            beta    = _info.get("beta", 0)
+            eps     = _info.get("trailingEps", 0)
+            bvps    = _info.get("bookValue", 0)
+            rev     = _info.get("totalRevenue", 0)
+            ebitda  = _info.get("ebitda", 0)
+            fcf     = _info.get("freeCashflow", 0)
+
+            r1,r2,r3,r4,r5,r6 = st.columns(6)
+            r1.metric("P/E (TTM)",    f"{pe:.1f}x"    if pe    else "N/A")
+            r2.metric("Fwd P/E",      f"{fwd_pe:.1f}x" if fwd_pe else "N/A")
+            r3.metric("P/B",          f"{pb:.2f}x"    if pb    else "N/A")
+            r4.metric("EV/EBITDA",    f"{ev_eb:.1f}x" if ev_eb else "N/A")
+            r5.metric("P/S",          f"{ps:.2f}x"    if ps    else "N/A")
+            r6.metric("Beta",         f"{beta:.2f}"   if beta  else "N/A")
+
+            r7,r8,r9,r10,r11,r12 = st.columns(6)
+            r7.metric("ROE",          f"{roe*100:.1f}%"    if roe    else "N/A")
+            r8.metric("ROA",          f"{roa*100:.1f}%"    if roa    else "N/A")
+            r9.metric("Net Margin",   f"{npm*100:.1f}%"    if npm    else "N/A")
+            r10.metric("Gross Margin",f"{gpm*100:.1f}%"    if gpm    else "N/A")
+            r11.metric("D/E Ratio",   f"{de:.2f}"          if de     else "N/A")
+            r12.metric("Div Yield",   f"{div_y*100:.2f}%"  if div_y  else "N/A")
+
+            r13,r14,r15,r16,r17,r18 = st.columns(6)
+            r13.metric("EPS (TTM)",   f"Rs.{eps:.2f}"      if eps    else "N/A")
+            r14.metric("Book Value",  f"Rs.{bvps:.2f}"     if bvps   else "N/A")
+            r15.metric("Revenue",     f"Rs.{rev/1e7:.0f}Cr" if rev   else "N/A")
+            r16.metric("EBITDA",      f"Rs.{ebitda/1e7:.0f}Cr" if ebitda else "N/A")
+            r17.metric("FCF",         f"Rs.{fcf/1e7:.0f}Cr" if fcf  else "N/A")
+            r18.metric("Rev Growth",  f"{rev_gr*100:.1f}%"  if rev_gr else "N/A")
+
+            # ── Ratio interpretation ──────────────────────────────────────────
+            st.markdown("#### Ratio Interpretation")
+            interp = []
+            if pe > 0:
+                if pe < 15:   interp.append(("P/E", f"{pe:.1f}x", "Potentially undervalued vs market", "#3fb950"))
+                elif pe < 25: interp.append(("P/E", f"{pe:.1f}x", "Fairly valued", "#58a6ff"))
+                else:         interp.append(("P/E", f"{pe:.1f}x", "Premium valuation — growth expected", "#ffa657"))
+            if roe > 0:
+                if roe > 0.20:  interp.append(("ROE", f"{roe*100:.1f}%", "Excellent capital efficiency", "#3fb950"))
+                elif roe > 0.12:interp.append(("ROE", f"{roe*100:.1f}%", "Decent returns on equity", "#58a6ff"))
+                else:           interp.append(("ROE", f"{roe*100:.1f}%", "Below average capital returns", "#f85149"))
+            if de > 0:
+                if de < 0.5:  interp.append(("D/E", f"{de:.2f}", "Low leverage — conservative balance sheet", "#3fb950"))
+                elif de < 1.5:interp.append(("D/E", f"{de:.2f}", "Moderate leverage", "#58a6ff"))
+                else:         interp.append(("D/E", f"{de:.2f}", "High leverage — monitor debt levels", "#f85149"))
+            if npm > 0:
+                if npm > 0.20: interp.append(("Net Margin", f"{npm*100:.1f}%", "Strong profitability", "#3fb950"))
+                elif npm > 0.10:interp.append(("Net Margin",f"{npm*100:.1f}%", "Decent margins", "#58a6ff"))
+                else:           interp.append(("Net Margin",f"{npm*100:.1f}%", "Thin margins — watch costs", "#ffa657"))
+
+            if interp:
+                ic = st.columns(len(interp))
+                for i,(metric,val,msg,color) in enumerate(interp):
+                    ic[i].markdown(f"""
+                    <div style="background:#161b22;border-left:3px solid {color};
+                                border-radius:0 8px 8px 0;padding:10px 12px;">
+                        <div style="font-size:11px;color:#6e7681;">{metric}</div>
+                        <div style="font-size:16px;font-weight:700;
+                                    color:{color};">{val}</div>
+                        <div style="font-size:11px;color:#8b949e;">{msg}</div>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+            # ── DCF Valuation ─────────────────────────────────────────────────
+            st.markdown("---")
+            st.markdown("#### DCF Valuation (Automated)")
+            st.caption(
+                "DCF uses free cash flow, analyst growth estimates, and WACC "
+                "to compute intrinsic value. Numbers sourced live from Yahoo Finance."
+            )
+
+            dcf1, dcf2, dcf3 = st.columns(3)
+            wacc     = dcf1.slider("WACC (%)", 8, 18, 12, key="sa_wacc") / 100
+            gr_yr1_5 = dcf2.slider("Growth Yrs 1-5 (%)", 0, 40, 
+                                    int(max(5, (earn_gr or 0.10)*100)),
+                                    key="sa_gr1") / 100
+            gr_term  = dcf3.slider("Terminal Growth (%)", 2, 6, 4, key="sa_grterm") / 100
+
+            if fcf and fcf > 0 and wacc > gr_term:
+                # Project FCF for 5 years
+                projected_fcf = []
+                cf = fcf
+                for yr in range(1, 6):
+                    cf = cf * (1 + gr_yr1_5)
+                    pv = cf / (1 + wacc)**yr
+                    projected_fcf.append({"Year": f"Year {yr}",
+                                          "FCF (Rs.Cr)": f"Rs.{cf/1e7:,.0f}Cr",
+                                          "PV (Rs.Cr)": f"Rs.{pv/1e7:,.0f}Cr"})
+
+                pv_sum = sum(fcf*(1+gr_yr1_5)**yr / (1+wacc)**yr
+                             for yr in range(1, 6))
+                terminal_val = (cf*(1+gr_term)) / (wacc-gr_term)
+                pv_terminal  = terminal_val / (1+wacc)**5
+                shares       = _info.get("sharesOutstanding", 1)
+                net_debt     = (_info.get("totalDebt", 0) -
+                                _info.get("totalCash", 0))
+                equity_val   = pv_sum + pv_terminal - net_debt
+                intrinsic_px = equity_val / shares if shares > 0 else 0
+
+                upside = ((intrinsic_px - curr_px) / curr_px * 100
+                          if curr_px > 0 else 0)
+
+                d1,d2,d3,d4 = st.columns(4)
+                d1.metric("PV of FCF (5yr)", f"Rs.{pv_sum/1e7:,.0f}Cr")
+                d2.metric("Terminal Value",   f"Rs.{pv_terminal/1e7:,.0f}Cr")
+                d3.metric("Intrinsic Value",  f"Rs.{intrinsic_px:,.2f}",
+                          delta=f"{upside:+.1f}% vs CMP")
+                d4.metric("Verdict",
+                          "Undervalued ✅" if upside > 15
+                          else "Fairly Valued ➡️" if upside > -10
+                          else "Overvalued ⚠️",
+                          delta=f"CMP Rs.{curr_px:,.0f}")
+
+                # Sensitivity table
+                st.markdown("**DCF Sensitivity — Intrinsic Value (Rs.)**")
+                waccs    = [wacc-0.02, wacc, wacc+0.02]
+                growths  = [gr_yr1_5-0.05, gr_yr1_5, gr_yr1_5+0.05]
+                sens_data = {}
+                for g in growths:
+                    row = {}
+                    for w in waccs:
+                        if w > gr_term and g >= 0:
+                            pv_s = sum(fcf*(1+g)**yr/(1+w)**yr for yr in range(1,6))
+                            tv_s = (fcf*(1+g)**5*(1+gr_term))/(w-gr_term)
+                            pv_tv= tv_s/(1+w)**5
+                            iv_s = (pv_s+pv_tv-net_debt)/shares if shares>0 else 0
+                            row[f"WACC {w*100:.0f}%"] = f"Rs.{iv_s:,.0f}"
+                        else:
+                            row[f"WACC {w*100:.0f}%"] = "N/A"
+                    sens_data[f"Growth {g*100:.0f}%"] = row
+                st.dataframe(_pd.DataFrame(sens_data).T,
+                             use_container_width=True)
+
+                st.dataframe(_pd.DataFrame(projected_fcf),
+                             hide_index=True, use_container_width=True)
+            else:
+                # P/E based valuation if no FCF
+                if eps > 0 and pe > 0:
+                    fair_pe      = min(pe, 25)
+                    intrinsic_pe = eps * fair_pe
+                    upside_pe    = (intrinsic_pe-curr_px)/curr_px*100 if curr_px else 0
+                    st.info(
+                        f"FCF not available. Using P/E based valuation: "
+                        f"EPS Rs.{eps:.2f} × Fair P/E {fair_pe:.0f}x = "
+                        f"**Rs.{intrinsic_pe:,.0f}** intrinsic value "
+                        f"({upside_pe:+.1f}% vs CMP Rs.{curr_px:,.0f})"
+                    )
+                else:
+                    st.warning(
+                        "Insufficient financial data for DCF. "
+                        "This may be a new listing or data unavailable on Yahoo Finance."
+                    )
+
+            # ── Add to portfolio ──────────────────────────────────────────────
+            st.markdown("---")
+            if selected_name and selected_name in STOCK_UNIVERSE:
+                already = selected_name in selected_assets
+                if not already:
+                    if st.button(f"Add {selected_name} to Portfolio",
+                                 type="primary", key="sa_add_btn"):
+                        selected_assets.append(selected_name)
+                        st.success(f"Added {selected_name}! Tick it in sidebar.")
+                        st.rerun()
+                else:
+                    st.success(f"{selected_name} is already in your portfolio.")
+        else:
+            st.error("Could not fetch company data. Check ticker symbol.")
+    else:
+        st.markdown("""
+        <div style="background:#161b22;border:1px solid #21262d;
+                    border-radius:10px;padding:24px;text-align:center;">
+            <div style="font-size:32px;margin-bottom:12px;">🔍</div>
+            <div style="font-size:16px;font-weight:600;color:#f0f6fc;
+                        margin-bottom:8px;">Search any NSE/BSE stock</div>
+            <div style="font-size:13px;color:#6e7681;line-height:1.8;">
+                Type a company name above to get:<br>
+                • Live price & 1-year chart<br>
+                • 18 financial ratios (P/E, ROE, D/E, margins)<br>
+                • Automated DCF valuation with intrinsic value<br>
+                • Sensitivity analysis across WACC & growth scenarios<br>
+                • One-click add to portfolio
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
 # ── TAB 5 — Charts & TA ──────────────────────────────────────────────────────
 with tab5:

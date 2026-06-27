@@ -8,31 +8,73 @@ from datetime import date, timedelta
 
 # ── Nifty 200 ticker map ──────────────────────────────────────────────────────
 TICKERS = {
-    "Nifty 50":      "^NSEI",
-    "Nifty Midcap":  "^NSMIDCP",
-    "Gold ETF":      "GOLDBEES.NS",
-    "Bharat Bond":   "CPSEETF.NS",
-    "G-Sec Bond":    "LIQUIDBEES.NS",
-    "REIT":          "EMBASSY.NS",
-    "HDFC Bank":     "HDFCBANK.NS",
-    "ICICI Bank":    "ICICIBANK.NS",
-    "TCS":           "TCS.NS",
-    "Infosys":       "INFY.NS",
-    "Reliance":      "RELIANCE.NS",
-    "HUL":           "HINDUNILVR.NS",
-    "ITC":           "ITC.NS",
-    "Sun Pharma":    "SUNPHARMA.NS",
-    "Maruti":        "MARUTI.NS",
-    "L&T":           "LT.NS",
-    "Tata Steel":    "TATASTEEL.NS",
-    "Bajaj Finance": "BAJFINANCE.NS",
-    "Axis Bank":     "AXISBANK.NS",
-    "Wipro":         "WIPRO.NS",
-    "NTPC":          "NTPC.NS",
-    "Tata Motors":   "TATAMOTORS.NS",
-    "Zomato":        "ZOMATO.NS",
-    "Dr. Reddys":    "DRREDDY.NS",
-    "JSW Steel":     "JSWSTEEL.NS",
+    # Indices
+    "Nifty 50":"^NSEI","Nifty Midcap":"^NSMIDCP","Nifty Smallcap":"^CNXSC",
+    "Nifty IT":"^CNXIT","Nifty Bank":"^NSEBANK","Nifty Pharma":"^CNXPHARMA",
+    "Nifty Auto":"^CNXAUTO","Nifty Energy":"^CNXENERGY",
+    # ETFs
+    "Gold ETF":"GOLDBEES.NS","Silver ETF":"SILVERETF.NS",
+    "Bharat Bond 2030":"CPSEETF.NS","G-Sec Bond":"LIQUIDBEES.NS",
+    "REIT":"EMBASSY.NS","Nasdaq 100 ETF":"MOTI0100.NS",
+    # Banking
+    "HDFC Bank":"HDFCBANK.NS","ICICI Bank":"ICICIBANK.NS",
+    "State Bank of India":"SBIN.NS","Kotak Mahindra Bank":"KOTAKBANK.NS",
+    "Axis Bank":"AXISBANK.NS","IndusInd Bank":"INDUSINDBK.NS",
+    "Federal Bank":"FEDERALBNK.NS","Bank of Baroda":"BANKBARODA.NS",
+    "Canara Bank":"CANBK.NS","Punjab National Bank":"PNB.NS",
+    "IDFC First Bank":"IDFCFIRSTB.NS",
+    # Finance
+    "Bajaj Finance":"BAJFINANCE.NS","Bajaj Finserv":"BAJAJFINSV.NS",
+    "HDFC Life":"HDFCLIFE.NS","SBI Life":"SBILIFE.NS",
+    "Muthoot Finance":"MUTHOOTFIN.NS","Cholamandalam":"CHOLAFIN.NS",
+    "PFC":"PFC.NS","REC Ltd":"RECLTD.NS",
+    # IT
+    "TCS":"TCS.NS","Infosys":"INFY.NS","HCL Technologies":"HCLTECH.NS",
+    "Wipro":"WIPRO.NS","Tech Mahindra":"TECHM.NS","LTIMindtree":"LTIM.NS",
+    "Mphasis":"MPHASIS.NS","Persistent Systems":"PERSISTENT.NS",
+    "Coforge":"COFORGE.NS","Tata Elxsi":"TATAELXSI.NS",
+    "KPIT Technologies":"KPITTECH.NS","Cyient":"CYIENT.NS","LTTS":"LTTS.NS",
+    # FMCG
+    "Hindustan Unilever":"HINDUNILVR.NS","ITC":"ITC.NS",
+    "Nestle India":"NESTLEIND.NS","Britannia":"BRITANNIA.NS",
+    "Dabur India":"DABUR.NS","Marico":"MARICO.NS",
+    "Godrej Consumer":"GODREJCP.NS","Tata Consumer":"TATACONSUM.NS",
+    "Varun Beverages":"VBL.NS","Emami":"EMAMILTD.NS",
+    # Auto
+    "Maruti Suzuki":"MARUTI.NS","Tata Motors":"TATAMOTORS.NS",
+    "Mahindra":"M&M.NS","Hero MotoCorp":"HEROMOTOCO.NS",
+    "Bajaj Auto":"BAJAJ-AUTO.NS","Eicher Motors":"EICHERMOT.NS",
+    "TVS Motor":"TVSMOTOR.NS","Ashok Leyland":"ASHOKLEY.NS",
+    "MRF":"MRF.NS","Apollo Tyres":"APOLLOTYRE.NS",
+    # Pharma
+    "Sun Pharmaceutical":"SUNPHARMA.NS","Dr Reddys":"DRREDDY.NS",
+    "Cipla":"CIPLA.NS","Divis Laboratories":"DIVISLAB.NS",
+    "Lupin":"LUPIN.NS","Aurobindo Pharma":"AUROPHARMA.NS",
+    "Torrent Pharma":"TORNTPHARM.NS","Apollo Hospitals":"APOLLOHOSP.NS",
+    "Fortis Healthcare":"FORTIS.NS","Zydus Lifesciences":"ZYDUSLIFE.NS",
+    "Max Healthcare":"MAXHEALTH.NS",
+    # Energy
+    "Reliance Industries":"RELIANCE.NS","ONGC":"ONGC.NS",
+    "Coal India":"COALINDIA.NS","NTPC":"NTPC.NS","Power Grid":"POWERGRID.NS",
+    "Adani Enterprises":"ADANIENT.NS","Adani Ports":"ADANIPORTS.NS",
+    "Tata Power":"TATAPOWER.NS","GAIL":"GAIL.NS","IOC":"IOC.NS",
+    "BPCL":"BPCL.NS","Torrent Power":"TORNTPOWER.NS","JSW Energy":"JSWENERGY.NS",
+    # Metals
+    "Tata Steel":"TATASTEEL.NS","JSW Steel":"JSWSTEEL.NS",
+    "Hindalco":"HINDALCO.NS","Vedanta":"VEDL.NS","SAIL":"SAIL.NS",
+    "NMDC":"NMDC.NS","Jindal Steel":"JINDALSTEL.NS",
+    # Infra
+    "Larsen & Toubro":"LT.NS","Siemens India":"SIEMENS.NS",
+    "ABB India":"ABB.NS","Havells India":"HAVELLS.NS","Voltas":"VOLTAS.NS",
+    "Polycab":"POLYCAB.NS","Bharat Electronics":"BEL.NS","HAL":"HAL.NS",
+    "IRCTC":"IRCTC.NS","Dixon Technologies":"DIXON.NS",
+    # Consumer & New Age
+    "Bharti Airtel":"BHARTIARTL.NS","Zomato":"ZOMATO.NS","Nykaa":"NYKAA.NS",
+    "Info Edge":"NAUKRI.NS","Trent":"TRENT.NS",
+    "DLF":"DLF.NS","Godrej Properties":"GODREJPROP.NS",
+    "Asian Paints":"ASIANPAINT.NS","Pidilite":"PIDILITIND.NS",
+    "Avenue Supermarts":"DMART.NS","Titan Company":"TITAN.NS",
+    "Jubilant Foodworks":"JUBLFOOD.NS","Kalyan Jewellers":"KALYANKJIL.NS",
 }
 
 @st.cache_data(ttl=300)  # refresh every 5 minutes
