@@ -117,8 +117,14 @@ def render_realtime_tab(assets, port_weights, total_investable):
     col_time.caption("Prices refresh automatically every 5 minutes. Click Refresh for instant update.")
 
     # Get live prices
+    # Build combined ticker map — portfolio + all available
+    combined_tickers = {**TICKERS}
+    for a in assets:
+        if a in TICKERS: continue
+        # Try to find ticker from asset name
+        combined_tickers[a] = combined_tickers.get(a, a + ".NS")
     with st.spinner("Fetching live prices..."):
-        prices_df = get_live_prices(TICKERS)
+        prices_df = get_live_prices(combined_tickers)
 
     if prices_df.empty:
         st.error("Could not fetch live prices. Check internet connection.")
@@ -127,8 +133,10 @@ def render_realtime_tab(assets, port_weights, total_investable):
     # ── Live price table ──────────────────────────────────────────────────────
     st.markdown("**Live Prices & Daily Change**")
     
+    # Merge portfolio assets with all TICKERS
+    all_trackable = list(set(list(assets) + list(TICKERS.keys())))
     price_rows = []
-    for asset in assets:
+    for asset in all_trackable:
         if asset not in prices_df.columns:
             continue
         col_data = prices_df[asset].dropna()
@@ -182,9 +190,11 @@ def render_realtime_tab(assets, port_weights, total_investable):
 
     # ── Intraday chart ────────────────────────────────────────────────────────
     st.markdown("**Intraday Chart**")
+    # Show ALL tickers in dropdown not just portfolio assets
+    all_ticker_names = list(TICKERS.keys())
     chart_asset = st.selectbox(
         "Select asset for intraday view",
-        [a for a in assets if a in TICKERS],
+        all_ticker_names,
         key="intraday_select"
     )
 

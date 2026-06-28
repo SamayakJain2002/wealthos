@@ -695,12 +695,35 @@ with tab4:
             r13,r14,r15,r16,r17,r18 = st.columns(6)
             r13.metric("EPS (TTM)",   f"Rs.{eps:.2f}"      if eps    else "N/A")
             r14.metric("Book Value",  f"Rs.{bvps:.2f}"     if bvps   else "N/A")
-            r15.metric("Revenue",     f"Rs.{rev/1e7:.0f}Cr" if rev   else "N/A")
-            r16.metric("EBITDA",      f"Rs.{ebitda/1e7:.0f}Cr" if ebitda else "N/A")
-            r17.metric("FCF",         f"Rs.{fcf/1e7:.0f}Cr" if fcf  else "N/A")
+            r15.metric("Revenue",     f"Rs.{rev/1e7:,.1f}Cr" if rev   else "N/A")
+            r16.metric("EBITDA",      f"Rs.{ebitda/1e7:,.1f}Cr" if ebitda else "N/A")
+            r17.metric("FCF",         f"Rs.{fcf/1e7:,.1f}Cr" if fcf  else "N/A")
             r18.metric("Rev Growth",  f"{rev_gr*100:.1f}%"  if rev_gr else "N/A")
 
             # ── Ratio interpretation ──────────────────────────────────────────
+            # Full numbers table
+            st.markdown("#### Key Financials (Full Numbers)")
+            fin_data = {
+                "Metric": ["Revenue","EBITDA","Free Cash Flow","Net Income","Total Debt","Cash"],
+                "Value (Rs. Cr)": [
+                    f"Rs.{rev/1e7:,.2f} Cr"    if rev    else "N/A",
+                    f"Rs.{ebitda/1e7:,.2f} Cr" if ebitda else "N/A",
+                    f"Rs.{fcf/1e7:,.2f} Cr"    if fcf    else "N/A",
+                    f"Rs.{_info.get('netIncomeToCommon',0)/1e7:,.2f} Cr" if _info.get('netIncomeToCommon') else "N/A",
+                    f"Rs.{_info.get('totalDebt',0)/1e7:,.2f} Cr"        if _info.get('totalDebt')         else "N/A",
+                    f"Rs.{_info.get('totalCash',0)/1e7:,.2f} Cr"        if _info.get('totalCash')         else "N/A",
+                ],
+                "Value (Rs. Lakh Cr)": [
+                    f"Rs.{rev/1e11:,.4f} L.Cr"    if rev    else "N/A",
+                    f"Rs.{ebitda/1e11:,.4f} L.Cr" if ebitda else "N/A",
+                    f"Rs.{fcf/1e11:,.4f} L.Cr"    if fcf    else "N/A",
+                    f"Rs.{_info.get('netIncomeToCommon',0)/1e11:,.4f} L.Cr" if _info.get('netIncomeToCommon') else "N/A",
+                    "—","—",
+                ],
+            }
+            import pandas as _pd2
+            st.dataframe(_pd2.DataFrame(fin_data), hide_index=True, use_container_width=True)
+
             st.markdown("#### Ratio Interpretation")
             interp = []
             if pe > 0:
