@@ -177,46 +177,92 @@ def get_optimizer_bounds(pid, asset_list, asset_universe):
 
 
 
+ANALYST_ESTIMATES = {
+    "Nifty 50":{"bull":18,"base":12,"bear":-5},
+    "Nifty Midcap":{"bull":22,"base":15,"bear":-10},
+    "Nifty Smallcap":{"bull":26,"base":17,"bear":-18},
+    "Nifty IT":{"bull":20,"base":13,"bear":-8},
+    "Nifty Bank":{"bull":19,"base":14,"bear":-7},
+    "Nifty Pharma":{"bull":16,"base":11,"bear":-3},
+    "Nifty Auto":{"bull":21,"base":14,"bear":-12},
+    "Nifty Energy":{"bull":15,"base":10,"bear":-6},
+    "Gold ETF":{"bull":10,"base":8,"bear":5},
+    "Silver ETF":{"bull":12,"base":7,"bear":2},
+    "G-Sec Bond":{"bull":8,"base":7,"bear":7},
+    "Bharat Bond 2030":{"bull":8,"base":8,"bear":7},
+    "REIT":{"bull":13,"base":9,"bear":-2},
+    "Nasdaq 100 ETF":{"bull":16,"base":10,"bear":-8},
+    "HDFC Bank":{"bull":18,"base":14,"bear":-5},
+    "ICICI Bank":{"bull":20,"base":15,"bear":-4},
+    "State Bank of India":{"bull":18,"base":12,"bear":-8},
+    "Kotak Mahindra Bank":{"bull":16,"base":11,"bear":-4},
+    "Axis Bank":{"bull":19,"base":13,"bear":-6},
+    "TCS":{"bull":16,"base":12,"bear":-5},
+    "Infosys":{"bull":15,"base":11,"bear":-6},
+    "HCL Technologies":{"bull":18,"base":13,"bear":-4},
+    "Wipro":{"bull":12,"base":8,"bear":-6},
+    "Tech Mahindra":{"bull":14,"base":9,"bear":-5},
+    "LTIMindtree":{"bull":18,"base":13,"bear":-5},
+    "Persistent Systems":{"bull":20,"base":15,"bear":-4},
+    "Reliance Industries":{"bull":18,"base":13,"bear":-4},
+    "ONGC":{"bull":14,"base":8,"bear":-8},
+    "Coal India":{"bull":12,"base":9,"bear":-5},
+    "NTPC":{"bull":14,"base":10,"bear":-3},
+    "Power Grid":{"bull":12,"base":9,"bear":-1},
+    "Adani Enterprises":{"bull":20,"base":12,"bear":-10},
+    "Adani Ports":{"bull":18,"base":12,"bear":-8},
+    "Tata Power":{"bull":16,"base":11,"bear":-5},
+    "Hindustan Unilever":{"bull":13,"base":9,"bear":-2},
+    "ITC":{"bull":14,"base":11,"bear":2},
+    "Nestle India":{"bull":12,"base":9,"bear":-1},
+    "Britannia":{"bull":13,"base":10,"bear":-2},
+    "Dabur India":{"bull":12,"base":9,"bear":-2},
+    "Tata Consumer":{"bull":14,"base":10,"bear":-3},
+    "Sun Pharmaceutical":{"bull":17,"base":13,"bear":-1},
+    "Dr Reddys":{"bull":16,"base":12,"bear":-2},
+    "Cipla":{"bull":15,"base":11,"bear":-2},
+    "Divis Laboratories":{"bull":16,"base":12,"bear":-3},
+    "Apollo Hospitals":{"bull":18,"base":13,"bear":-2},
+    "Max Healthcare":{"bull":20,"base":14,"bear":-3},
+    "Maruti Suzuki":{"bull":20,"base":14,"bear":-8},
+    "Tata Motors":{"bull":24,"base":16,"bear":-12},
+    "Mahindra":{"bull":22,"base":15,"bear":-8},
+    "Bajaj Auto":{"bull":18,"base":13,"bear":-6},
+    "Hero MotoCorp":{"bull":15,"base":11,"bear":-5},
+    "TVS Motor":{"bull":20,"base":14,"bear":-7},
+    "Eicher Motors":{"bull":18,"base":13,"bear":-6},
+    "Bajaj Finance":{"bull":22,"base":16,"bear":-6},
+    "Bajaj Finserv":{"bull":20,"base":14,"bear":-5},
+    "Muthoot Finance":{"bull":18,"base":13,"bear":-5},
+    "Larsen & Toubro":{"bull":20,"base":15,"bear":-5},
+    "HAL":{"bull":22,"base":16,"bear":-3},
+    "Bharat Electronics":{"bull":20,"base":14,"bear":-2},
+    "Havells India":{"bull":16,"base":11,"bear":-4},
+    "Dixon Technologies":{"bull":25,"base":18,"bear":-8},
+    "Polycab":{"bull":20,"base":14,"bear":-5},
+    "Tata Steel":{"bull":18,"base":10,"bear":-15},
+    "JSW Steel":{"bull":17,"base":9,"bear":-14},
+    "Hindalco":{"bull":20,"base":12,"bear":-12},
+    "DLF":{"bull":22,"base":14,"bear":-8},
+    "Godrej Properties":{"bull":20,"base":13,"bear":-7},
+    "Asian Paints":{"bull":14,"base":10,"bear":-3},
+    "Pidilite":{"bull":16,"base":12,"bear":-3},
+    "Titan Company":{"bull":18,"base":13,"bear":-4},
+    "Avenue Supermarts":{"bull":20,"base":14,"bear":-5},
+    "Zomato":{"bull":35,"base":22,"bear":-5},
+    "Nykaa":{"bull":28,"base":18,"bear":-8},
+    "Bharti Airtel":{"bull":18,"base":14,"bear":-3},
+    "Info Edge":{"bull":20,"base":14,"bear":-5},
+    "Trent":{"bull":25,"base":18,"bear":-6},
+}
 
 def recommend_assets_for_profile(pid, all_assets, asset_universe, goal_years):
-    _AE = {
-        "Nifty 50":{"bull":18,"base":12,"bear":-5},
-        "Nifty Midcap":{"bull":22,"base":15,"bear":-10},
-        "Nifty Smallcap":{"bull":26,"base":17,"bear":-18},
-        "Nifty IT":{"bull":20,"base":13,"bear":-8},
-        "Nifty Bank":{"bull":19,"base":14,"bear":-7},
-        "Nifty Pharma":{"bull":16,"base":11,"bear":-3},
-        "Nifty Auto":{"bull":21,"base":14,"bear":-12},
-        "Gold ETF":{"bull":10,"base":8,"bear":5},
-        "G-Sec Bond":{"bull":8,"base":7,"bear":7},
-        "Bharat Bond 2030":{"bull":8,"base":8,"bear":7},
-        "REIT":{"bull":13,"base":9,"bear":-2},
-        "HDFC Bank":{"bull":18,"base":14,"bear":-5},
-        "ICICI Bank":{"bull":20,"base":15,"bear":-4},
-        "TCS":{"bull":16,"base":12,"bear":-5},
-        "Infosys":{"bull":15,"base":11,"bear":-6},
-        "Reliance Industries":{"bull":18,"base":13,"bear":-4},
-        "ITC":{"bull":14,"base":11,"bear":2},
-        "Sun Pharmaceutical":{"bull":17,"base":13,"bear":-1},
-        "Maruti Suzuki":{"bull":20,"base":14,"bear":-8},
-        "Bajaj Finance":{"bull":22,"base":16,"bear":-6},
-        "Tata Motors":{"bull":24,"base":16,"bear":-12},
-        "Zomato":{"bull":35,"base":22,"bear":-5},
-        "Bharti Airtel":{"bull":18,"base":14,"bear":-3},
-        "DLF":{"bull":22,"base":14,"bear":-8},
-        "Titan Company":{"bull":18,"base":13,"bear":-4},
-        "HAL":{"bull":22,"base":16,"bear":-3},
-        "Larsen & Toubro":{"bull":20,"base":15,"bear":-5},
-        "Hindalco":{"bull":20,"base":12,"bear":-12},
-        "Tata Steel":{"bull":18,"base":10,"bear":-15},
-    }
     """
     Recommend best assets for a risk profile from ALL available assets.
     Uses analyst estimates, asset category, and risk profile to pick top assets.
     pid 1=Conservative, 2=ModCons, 3=Balanced, 4=ModAgg, 5=Aggressive
     """
     # Category preferences by risk profile
-    _LOCAL_AE = {"Nifty 50":{"bull":18,"base":12,"bear":-5},"Nifty Midcap":{"bull":22,"base":15,"bear":-10},"Gold ETF":{"bull":10,"base":8,"bear":5},"G-Sec Bond":{"bull":8,"base":7,"bear":7},"Bharat Bond 2030":{"bull":8,"base":8,"bear":7},"REIT":{"bull":13,"base":9,"bear":-2},"HDFC Bank":{"bull":18,"base":14,"bear":-5},"ICICI Bank":{"bull":20,"base":15,"bear":-4},"TCS":{"bull":16,"base":12,"bear":-5},"Infosys":{"bull":15,"base":11,"bear":-6},"Reliance Industries":{"bull":18,"base":13,"bear":-4},"ITC":{"bull":14,"base":11,"bear":2},"Sun Pharmaceutical":{"bull":17,"base":13,"bear":-1},"Maruti Suzuki":{"bull":20,"base":14,"bear":-8},"Bajaj Finance":{"bull":22,"base":16,"bear":-6},"Tata Motors":{"bull":24,"base":16,"bear":-12},"Zomato":{"bull":35,"base":22,"bear":-5},"Bharti Airtel":{"bull":18,"base":14,"bear":-3},"DLF":{"bull":22,"base":14,"bear":-8},"Titan Company":{"bull":18,"base":13,"bear":-4},"HAL":{"bull":22,"base":16,"bear":-3},"Larsen & Toubro":{"bull":20,"base":15,"bear":-5},"Hindalco":{"bull":20,"base":12,"bear":-12},"Tata Steel":{"bull":18,"base":10,"bear":-15}}
     CATEGORY_WEIGHTS = {
         1: {"Debt-Sov":1.0,"Debt-TM":1.0,"Gold":0.8,"REIT":0.4,
             "Equity-LC":0.3,"Stock-Bank":0.2,"Stock-Finance":0.1},
@@ -240,8 +286,8 @@ def recommend_assets_for_profile(pid, all_assets, asset_universe, goal_years):
         cat_score = prefs.get(cat, 0.1)
 
         # Boost by analyst estimate
-        if a in _AE:
-            est = _AE[a]
+        if a in ANALYST_ESTIMATES:
+            est = ANALYST_ESTIMATES[a]
             # Probability weighted return
             ev = 0.30*est["bull"] + 0.50*est["base"] + 0.20*est["bear"]
             # For conservative, penalize volatile assets

@@ -388,51 +388,114 @@ with st.sidebar:
              "Real Estate","Chemicals & Specialty","Consumer & Retail"],
             key="sb_sector_filter"
         )
+        sector_kw = {
+            "Banking & Finance":  ["Bank","Finance","Housing","PFC","REC","IDFC",
+                                   "Federal","Baroda","Canara","Punjab","Union",
+                                   "Muthoot","Cholamandalam","Shriram","HDFC Life",
+                                   "SBI Life","ICICI Pru","AU Small"],
+            "IT & Technology":    ["TCS","Infosys","HCL","Wipro","Tech Mahindra",
+                                   "LTIMindtree","Mphasis","Persistent","Coforge",
+                                   "Tata Elxsi","KPIT","Happiest","Tanla","Mastek",
+                                   "Zensar","Birlasoft","Cyient","LTTS"],
+            "FMCG & Consumer":    ["Hindustan Unilever","ITC","Nestle","Britannia",
+                                   "Dabur","Marico","Godrej Consumer","Tata Consumer",
+                                   "Varun","Emami","Colgate"],
+            "Auto & Ancillary":   ["Maruti","Tata Motors","Mahindra","Hero",
+                                   "Bajaj Auto","Eicher","TVS Motor","Ashok","Bosch",
+                                   "MRF","Apollo Tyres","CEAT","Exide","Motherson",
+                                   "Bharat Forge","Sona","Uno Minda"],
+            "Pharma & Health":    ["Sun Pharmaceutical","Dr Reddys","Cipla","Divis",
+                                   "Lupin","Aurobindo","Torrent Pharma","Alkem",
+                                   "Apollo Hospitals","Fortis","Zydus","Laurus",
+                                   "Max Healthcare","Dr Lal"],
+            "Energy & Oil":       ["Reliance","ONGC","Coal India","NTPC","Power Grid",
+                                   "Adani","Tata Power","GAIL","IOC","BPCL",
+                                   "Hindustan Petroleum","Torrent Power","JSW Energy",
+                                   "Gujarat Gas","Oil India"],
+            "Metals & Mining":    ["Tata Steel","JSW Steel","Hindalco","Vedanta",
+                                   "SAIL","NMDC","Jindal Steel","APL Apollo",
+                                   "Hindustan Zinc"],
+            "Infra & Cap Goods":  ["Larsen","Siemens","ABB","Havells","Voltas",
+                                   "Polycab","KEI","Cummins","Bharat Electronics",
+                                   "HAL","IRCTC","Dixon","Crompton","Blue Star",
+                                   "V-Guard","KEC","Thermax"],
+            "Telecom & New Age":  ["Bharti Airtel","Indus Towers","Zomato","Paytm",
+                                   "Nykaa","PolicyBazaar","Delhivery","Info Edge",
+                                   "Trent","Indiamart"],
+            "Real Estate":        ["DLF","Godrej Properties","Oberoi","Prestige",
+                                   "Sobha","Brigade"],
+            "Chemicals & Specialty":["Asian Paints","Berger","Pidilite","SRF","Aarti",
+                                     "PI Industries","UPL","Deepak","Navin Fluorine",
+                                     "Vinati","Coromandel","Chambal","Tata Chemicals"],
+            "Consumer & Retail":  ["Avenue Supermarts","Titan","Jubilant","Page",
+                                   "Bata","Kalyan","Astral","Supreme","PVR","Sun TV"],
+        }
         if sb_sector == "All":
             display_stocks = list(STOCK_UNIVERSE.keys())
         else:
-            sector_kw = {
-                "Banking & Finance":  ["Bank","Finance","Housing","PFC","REC","IDFC","Federal","Baroda","Canara","Punjab","Union","Muthoot","Cholamandalam","Shriram","HDFC Life","SBI Life","ICICI Pru","AU Small","Bandhan"],
-                "IT & Technology":    ["TCS","Infosys","HCL","Wipro","Tech Mahindra","LTIMindtree","Mphasis","Persistent","Coforge","Tata Elxsi","KPIT","Happiest","Tanla","Mastek","Zensar","Birlasoft","Cyient","LTTS","Intellect","Newgen","Firstsource"],
-                "FMCG & Consumer":    ["Hindustan Unilever","ITC","Nestle","Britannia","Dabur","Marico","Godrej Consumer","Tata Consumer","Varun","Emami","Colgate","Jyothy","Bikaji","Patanjali"],
-                "Auto & Ancillary":   ["Maruti","Tata Motors","Mahindra","Hero","Bajaj Auto","Eicher","TVS Motor","Ashok","Bosch","MRF","Apollo Tyres","CEAT","Exide","Motherson","Bharat Forge","Endurance","Sona","Uno Minda","Samvardhana"],
-                "Pharma & Health":    ["Sun Pharmaceutical","Dr Reddys","Cipla","Divis","Biocon","Lupin","Aurobindo","Torrent Pharma","Alkem","Abbott","Max Healthcare","Apollo Hospitals","Fortis","Zydus","Gland","Laurus","Ipca","Ajanta","Metropolis","Dr Lal"],
-                "Energy & Oil":       ["Reliance","ONGC","Coal India","NTPC","Power Grid","Adani","Tata Power","GAIL","IOC","BPCL","Hindustan Petroleum","Torrent Power","JSW Energy","Petronet","Oil India","Gujarat Gas"],
-                "Metals & Mining":    ["Tata Steel","JSW Steel","Hindalco","Vedanta","SAIL","NMDC","Jindal Steel","APL Apollo","Hindustan Zinc","National Aluminium","Ratnamani"],
-                "Infra & Cap Goods":  ["Larsen","Siemens","ABB","Havells","Voltas","Polycab","KEI","Cummins","Bharat Electronics","HAL","IRCTC","Dixon","Crompton","Blue Star","V-Guard","KEC","Kalpataru","Thermax","NCC","IRB"],
-                "Telecom & New Age":  ["Bharti Airtel","Indus Towers","Zomato","Paytm","Nykaa","PolicyBazaar","Delhivery","Info Edge","Trent","Indiamart"],
-                "Real Estate":        ["DLF","Godrej Properties","Oberoi","Prestige","Sobha","Brigade"],
-                "Chemicals & Specialty":["Asian Paints","Berger","Pidilite","SRF","Aarti","PI Industries","UPL","Deepak","Navin Fluorine","Vinati","Atul","Tata Chemicals","Coromandel","Chambal"],
-                "Consumer & Retail":  ["Avenue Supermarts","Titan","Jubilant","Page Industries","Bata","Kalyan","Astral","Supreme","Whirlpool","PVR","Sun TV","Zee"],
-            }
             kws = sector_kw.get(sb_sector, [])
             display_stocks = [
                 a for a in STOCK_UNIVERSE.keys()
                 if any(k.lower() in a.lower() for k in kws)
             ]
+
         st.caption(f"{len(display_stocks)} stocks in {sb_sector}")
+
+        # PERSISTENT SELECTION — initialize from session state
+        if "persistent_stock_selection" not in st.session_state:
+            st.session_state["persistent_stock_selection"] = set()
+
+        # Show currently selected stocks count
+        n_selected = len(st.session_state["persistent_stock_selection"])
+        if n_selected > 0:
+            st.success(f"✅ {n_selected} stocks selected across all sectors")
+            # Show them in a compact list
+            with st.expander(f"View selected stocks ({n_selected})"):
+                sel_list = sorted(st.session_state["persistent_stock_selection"])
+                for i in range(0, len(sel_list), 3):
+                    row = sel_list[i:i+3]
+                    cols_s = st.columns(3)
+                    for j, nm in enumerate(row):
+                        if cols_s[j].button(f"❌ {nm}", key=f"desel_{nm}"):
+                            st.session_state["persistent_stock_selection"].discard(nm)
+                            st.rerun()
+
+        st.markdown("**Tick to add to portfolio:**")
         for a in display_stocks:
-            if st.checkbox(a, value=False, key=f"cb_{a}"):
+            # Read current state from session_state — persists across sector changes
+            is_selected = a in st.session_state["persistent_stock_selection"]
+            checked = st.checkbox(
+                a,
+                value=is_selected,
+                key=f"pstock_{a}"
+            )
+            if checked and a not in st.session_state["persistent_stock_selection"]:
+                st.session_state["persistent_stock_selection"].add(a)
+            elif not checked and a in st.session_state["persistent_stock_selection"]:
+                st.session_state["persistent_stock_selection"].discard(a)
+
+        # Add all persistently selected stocks to selected_assets
+        for a in st.session_state["persistent_stock_selection"]:
+            if a not in selected_assets:
                 selected_assets.append(a)
 
     st.markdown("#### Risk Profile (Q1-10)")
     QUESTIONS = [
-        ("Horizon?",     ["<1yr(1)","1-3yr(2)","3-5yr(3)","5-10yr(4)",">10yr(5)"]),
-        ("Emergency?",   ["None(1)","1-3mo(2)","3-6mo(4)",">6mo(5)"]),
-        ("Income?",      ["Irregular(1)","Business(2)","Salaried(3)","Govt(4)","Multiple(5)"]),
-        ("Obligations?", [">70%(1)","50-70%(2)","30-50%(3)","10-30%(4)","<10%(5)"]),
-        ("Drop 25%?",    ["Sell all(1)","Sell most(2)","Hold(3)","Hold+buy(4)","Buy more(5)"]),
-        ("Max loss?",    ["None(1)","<5%(2)","5-15%(3)","15-30%(4)",">30%(5)"]),
-        ("Emotional?",   ["Severe(1)","High(2)","Moderate(3)","Low(4)","Minimal(5)"]),
-        ("Experience?",  ["FDs(1)","MF SIP(2)","MF+eq(3)","Deriv(4)","PMS(5)"]),
-        ("Knowledge?",   ["None(1)","Basic(2)","Moderate(3)","Good(4)","Expert(5)"]),
-        ("REITs/ETFs?",  ["Never(1)","Heard(2)","1of3(3)","2of3(4)","All3(5)"]),
+        ("Investment Horizon?",     ["<1yr(1)","1-3yr(2)","3-5yr(3)","5-10yr(4)",">10yr(5)"]),
+        ("Emergency Fund?",         ["None(1)","1-3mo(2)","3-6mo(3)",">6mo(4)","1yr+(5)"]),
+        ("Income Stability?",       ["Irregular(1)","Business(2)","Salaried(3)","Govt(4)","Multiple(5)"]),
+        ("Monthly Obligations?",    [">70%(1)","50-70%(2)","30-50%(3)","10-30%(4)","<10%(5)"]),
+        ("If portfolio drops 25%?", ["Sell all(1)","Sell most(2)","Hold(3)","Hold+buy(4)","Buy more(5)"]),
+        ("Max acceptable loss?",    ["None(1)","<5%(2)","5-15%(3)","15-30%(4)",">30%(5)"]),
+        ("Emotional reaction?",     ["Severe(1)","High(2)","Moderate(3)","Low(4)","Minimal(5)"]),
+        ("Investment experience?",  ["FDs only(1)","MF SIP(2)","MF+Equity(3)","Derivatives(4)","PMS(5)"]),
+        ("Financial knowledge?",    ["None(1)","Basic(2)","Moderate(3)","Good(4)","Expert(5)"]),
+        ("Know REITs/ETFs/InvITs?", ["Never heard(1)","Heard(2)","Know 1(3)","Know 2(4)","Know all(5)"]),
     ]
     scores = []
     for i,(q,opts) in enumerate(QUESTIONS,1):
         ans = st.selectbox(f"Q{i}. {q}", opts, key=f"rq{i}")
         scores.append(int(ans.split("(")[1].replace(")","").strip()))
-
     total_score = sum(scores)
     pct = total_score/50
     if   pct<=0.25: pid=1
@@ -440,22 +503,19 @@ with st.sidebar:
     elif pct<=0.60: pid=3
     elif pct<=0.78: pid=4
     else:           pid=5
-
     st.markdown(f"**Score: {total_score}/50**")
     st.markdown(
-        f'<div style="display:inline-block;padding:4px 12px;'
-        f'border-radius:16px;font-size:12px;font-weight:600;'
-        f'background:{PROFILE_COLORS[pid]}22;'
-        f'color:{PROFILE_COLORS[pid]};'
+        f'<div style="display:inline-block;padding:4px 14px;border-radius:16px;'
+        f'font-size:13px;font-weight:600;'
+        f'background:{PROFILE_COLORS[pid]}22;color:{PROFILE_COLORS[pid]};'
         f'border:1px solid {PROFILE_COLORS[pid]};">'
         f'{PROFILE_NAMES[pid]}</div>',
         unsafe_allow_html=True)
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# LOAD DATA
-# ═══════════════════════════════════════════════════════════════════════════════
+# ── Load Data ─────────────────────────────────────────────────────────────────
 if len(selected_assets) < 2:
-    selected_assets = ["Nifty 50","Gold ETF","G-Sec Bond","Bharat Bond 2030","REIT"]
+    selected_assets = ["Nifty 50","Gold ETF","G-Sec Bond",
+                       "Bharat Bond 2030","REIT","Nifty Midcap"]
 
 with st.spinner("Loading market data..."):
     result = load_data(tuple(sorted(selected_assets)))
@@ -463,17 +523,15 @@ with st.spinner("Loading market data..."):
 daily_returns, ann_returns, cov, assets, prices = result
 
 if daily_returns is None:
-    st.error("Could not load data. Please select more assets.")
+    st.error("Could not load data. Please select different assets.")
     st.stop()
 
 n         = len(assets)
-RISK_FREE = 0.065
-DATA_DATE = prices.index[-1].strftime("%d %b %Y")
-name_disp = client_name.strip() if client_name.strip() else "there"
+RISK_FREE  = 0.065
+DATA_DATE  = prices.index[-1].strftime("%d %b %Y")
+name_disp  = client_name.strip() if client_name.strip() else "there"
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# TOPBAR
-# ═══════════════════════════════════════════════════════════════════════════════
+# ── Top bar ───────────────────────────────────────────────────────────────────
 st.markdown(f"""
 <div style="display:flex;align-items:center;justify-content:space-between;
             padding:10px 0 8px;border-bottom:1px solid #21262d;margin-bottom:14px;">
@@ -484,7 +542,7 @@ st.markdown(f"""
     </span>
     <span style="font-size:12px;color:#555;">
         Hi <b style="color:#3fb950;">{name_disp}</b> |
-        Age {age} | {city} |
+        Age {age} |
         <b style="color:{PROFILE_COLORS[pid]};">{PROFILE_NAMES[pid]}</b> |
         Live: <b style="color:#3fb950;">{DATA_DATE}</b> |
         {n} assets loaded
@@ -492,9 +550,7 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# TABS
-# ═══════════════════════════════════════════════════════════════════════════════
+# ── Tabs ──────────────────────────────────────────────────────────────────────
 tabs = st.tabs([
     "📊 Portfolio Builder",
     "🔭 Forward Returns",
@@ -525,7 +581,6 @@ with tab1:
         annual_topup, goal_amount, goal_years, inflation, name_disp
     )
 
-# Read shared state
 w_raw = st.session_state.get("active_weights", [1/n]*n)
 port_weights = np.array(w_raw)
 if len(port_weights) != n:
@@ -536,7 +591,6 @@ m = st.session_state.get("active_metrics", {
     "sortino":0.6,"beta":0.8,"alpha":2.0,
     "max_dd":-15.0,"var95":-1.5
 })
-port = {**m, "weights": port_weights, "name": PROFILE_NAMES[pid]}
 
 # ── TAB 2 — Forward Returns ───────────────────────────────────────────────────
 with tab2:
@@ -549,334 +603,166 @@ with tab2:
 with tab3:
     render_realtime_tab(assets, port_weights, total_investable)
 
-# ── TAB 4 — Stock Analyser ──────────────────────────────────────────────────
+# ── TAB 4 — Stock Analyser ───────────────────────────────────────────────────
 with tab4:
     import yfinance as _yf
     import plotly.graph_objects as _go
-    import pandas as _pd
-    import numpy as _np
 
-    st.markdown("#### Stock Analyser — Financial Ratios & DCF Valuation")
-    st.caption(
-        "Search any NSE/BSE stock. Get live financial ratios, "
-        "analyst estimates, and an automated DCF valuation."
-    )
+    st.markdown("#### Stock Analyser — Ratios & DCF Valuation")
+    st.caption("Search any NSE stock for live ratios and automated DCF.")
 
-    # Search box
-    col_s1, col_s2 = st.columns([3, 1])
+    col_s1, col_s2 = st.columns([3,1])
     stock_query = col_s1.text_input(
         "Search stock by name",
         placeholder="e.g. Reliance, TCS, HDFC Bank",
         key="sa_query"
     )
-    
-    # Build full ticker map from STOCK_UNIVERSE
-    name_to_ticker = {n: v[0] for n, v in STOCK_UNIVERSE.items()}
-    
+    name_to_ticker = {n: v[0] for n,v in STOCK_UNIVERSE.items()}
+
+    selected_ticker = None
+    selected_name   = None
+
     if stock_query and len(stock_query) >= 2:
-        matches = {n: t for n, t in name_to_ticker.items()
+        matches = {n:t for n,t in name_to_ticker.items()
                    if stock_query.lower() in n.lower()}
         if matches:
-            selected_name = col_s2.selectbox(
-                "Select", list(matches.keys()), key="sa_select"
-            )
+            selected_name   = col_s2.selectbox("Select", list(matches.keys()),
+                                                key="sa_select")
             selected_ticker = matches[selected_name]
         else:
-            st.info("No match. Enter ticker directly below.")
-            selected_name   = None
-            selected_ticker = None
-    else:
-        selected_name   = None
-        selected_ticker = None
+            st.info("No match found.")
 
-    # Direct ticker input
-    custom_ticker_sa = st.text_input(
-        "Or enter NSE ticker directly (e.g. RELIANCE.NS)",
-        key="sa_direct_ticker"
-    ).strip().upper()
-    if custom_ticker_sa:
-        selected_ticker = custom_ticker_sa
-        selected_name   = custom_ticker_sa
+    ct_direct = st.text_input(
+        "Or enter ticker directly (e.g. RELIANCE.NS)",
+        key="sa_direct").strip().upper()
+    if ct_direct:
+        selected_ticker = ct_direct
+        selected_name   = ct_direct
 
     if selected_ticker:
-        with st.spinner(f"Fetching data for {selected_ticker}..."):
+        with st.spinner(f"Fetching {selected_ticker}..."):
             try:
                 _t    = _yf.Ticker(selected_ticker)
                 _info = _t.info
                 _hist = _t.history(period="1y")
             except Exception as e:
-                st.error(f"Could not fetch data: {e}")
+                st.error(f"Error: {e}")
                 _info = {}
-                _hist = _pd.DataFrame()
+                _hist = __import__("pandas").DataFrame()
 
         if _info:
-            # ── Company header ────────────────────────────────────────────────
             co_name  = _info.get("longName", selected_name)
-            sector   = _info.get("sector", "N/A")
-            industry = _info.get("industry", "N/A")
-            curr_px  = _info.get("currentPrice") or _info.get("regularMarketPrice", 0)
-            mktcap   = _info.get("marketCap", 0)
+            curr_px  = _info.get("currentPrice") or _info.get("regularMarketPrice",0)
+            mktcap   = _info.get("marketCap",0)
+            sector   = _info.get("sector","N/A")
 
             st.markdown(f"""
             <div style="background:#161b22;border:1px solid #21262d;
-                        border-radius:10px;padding:16px 18px;margin-bottom:16px;">
+                        border-radius:10px;padding:16px;margin-bottom:12px;">
                 <div style="font-size:20px;font-weight:700;color:#f0f6fc;">
                     {co_name}</div>
-                <div style="font-size:12px;color:#8b949e;margin-top:4px;">
-                    {sector} | {industry} | {selected_ticker}</div>
-                <div style="font-size:24px;font-weight:800;
-                            color:#3fb950;margin-top:8px;">
+                <div style="font-size:12px;color:#8b949e;">{sector} | {selected_ticker}</div>
+                <div style="font-size:26px;font-weight:800;color:#3fb950;margin-top:6px;">
                     Rs.{curr_px:,.2f}
                     <span style="font-size:13px;color:#8b949e;">
-                        | Mkt Cap: Rs.{mktcap/1e7:,.0f}Cr</span>
-                </div>
+                        Mkt Cap: Rs.{mktcap/1e7:,.0f}Cr</span></div>
             </div>
             """, unsafe_allow_html=True)
 
-            # ── Price chart ───────────────────────────────────────────────────
             if not _hist.empty:
-                fig_px = _go.Figure()
-                fig_px.add_trace(_go.Scatter(
+                import plotly.graph_objects as _go2
+                fig_px = _go2.Figure()
+                fig_px.add_trace(_go2.Scatter(
                     x=_hist.index, y=_hist["Close"],
-                    mode="lines", line=dict(color="#3fb950", width=2),
+                    mode="lines", line=dict(color="#3fb950",width=2),
                     fill="tozeroy", fillcolor="rgba(63,185,80,0.08)"
                 ))
                 fig_px.update_layout(
-                    paper_bgcolor="rgba(0,0,0,0)",
-                    plot_bgcolor="#161b22",
+                    paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="#161b22",
                     font_color="white", height=200,
-                    margin=dict(t=10,b=30,l=50,r=10),
-                    xaxis=dict(showgrid=False, color="#6e7681"),
-                    yaxis=dict(showgrid=True, gridcolor="#21262d",
-                               color="#6e7681", title="Price (Rs.)")
-                )
+                    margin=dict(t=5,b=30,l=50,r=10))
                 st.plotly_chart(fig_px, use_container_width=True)
 
-            # ── Key ratios ────────────────────────────────────────────────────
-            st.markdown("#### Key Financial Ratios")
-            
-            pe      = _info.get("trailingPE", 0)
-            fwd_pe  = _info.get("forwardPE", 0)
-            pb      = _info.get("priceToBook", 0)
-            ps      = _info.get("priceToSalesTrailing12Months", 0)
-            ev_eb   = _info.get("enterpriseToEbitda", 0)
-            roe     = _info.get("returnOnEquity", 0)
-            roa     = _info.get("returnOnAssets", 0)
-            npm     = _info.get("profitMargins", 0)
-            gpm     = _info.get("grossMargins", 0)
-            de      = _info.get("debtToEquity", 0)
-            cr      = _info.get("currentRatio", 0)
-            div_y   = _info.get("dividendYield", 0)
-            rev_gr  = _info.get("revenueGrowth", 0)
-            earn_gr = _info.get("earningsGrowth", 0)
-            beta    = _info.get("beta", 0)
-            eps     = _info.get("trailingEps", 0)
-            bvps    = _info.get("bookValue", 0)
-            rev     = _info.get("totalRevenue", 0)
-            ebitda  = _info.get("ebitda", 0)
-            fcf     = _info.get("freeCashflow", 0)
+            pe=_info.get("trailingPE",0); fwd_pe=_info.get("forwardPE",0)
+            pb=_info.get("priceToBook",0); ps=_info.get("priceToSalesTrailing12Months",0)
+            ev_eb=_info.get("enterpriseToEbitda",0); roe=_info.get("returnOnEquity",0)
+            roa=_info.get("returnOnAssets",0); npm=_info.get("profitMargins",0)
+            gpm=_info.get("grossMargins",0); de=_info.get("debtToEquity",0)
+            div_y=_info.get("dividendYield",0); rev_gr=_info.get("revenueGrowth",0)
+            beta=_info.get("beta",0); eps=_info.get("trailingEps",0)
+            bvps=_info.get("bookValue",0); rev=_info.get("totalRevenue",0)
+            ebitda=_info.get("ebitda",0); fcf=_info.get("freeCashflow",0)
 
+            st.markdown("#### Key Financial Ratios")
             r1,r2,r3,r4,r5,r6 = st.columns(6)
-            r1.metric("P/E (TTM)",    f"{pe:.1f}x"    if pe    else "N/A")
-            r2.metric("Fwd P/E",      f"{fwd_pe:.1f}x" if fwd_pe else "N/A")
-            r3.metric("P/B",          f"{pb:.2f}x"    if pb    else "N/A")
-            r4.metric("EV/EBITDA",    f"{ev_eb:.1f}x" if ev_eb else "N/A")
-            r5.metric("P/S",          f"{ps:.2f}x"    if ps    else "N/A")
-            r6.metric("Beta",         f"{beta:.2f}"   if beta  else "N/A")
+            r1.metric("P/E (TTM)",  f"{pe:.1f}x"     if pe    else "N/A")
+            r2.metric("Fwd P/E",    f"{fwd_pe:.1f}x"  if fwd_pe else "N/A")
+            r3.metric("P/B",        f"{pb:.2f}x"     if pb    else "N/A")
+            r4.metric("EV/EBITDA",  f"{ev_eb:.1f}x"  if ev_eb else "N/A")
+            r5.metric("P/S",        f"{ps:.2f}x"     if ps    else "N/A")
+            r6.metric("Beta",       f"{beta:.2f}"    if beta  else "N/A")
 
             r7,r8,r9,r10,r11,r12 = st.columns(6)
-            r7.metric("ROE",          f"{roe*100:.1f}%"    if roe    else "N/A")
-            r8.metric("ROA",          f"{roa*100:.1f}%"    if roa    else "N/A")
-            r9.metric("Net Margin",   f"{npm*100:.1f}%"    if npm    else "N/A")
-            r10.metric("Gross Margin",f"{gpm*100:.1f}%"    if gpm    else "N/A")
-            r11.metric("D/E Ratio",   f"{de:.2f}"          if de     else "N/A")
-            r12.metric("Div Yield",   f"{div_y*100:.2f}%"  if div_y  else "N/A")
+            r7.metric("ROE",        f"{roe*100:.1f}%" if roe   else "N/A")
+            r8.metric("ROA",        f"{roa*100:.1f}%" if roa   else "N/A")
+            r9.metric("Net Margin", f"{npm*100:.1f}%" if npm   else "N/A")
+            r10.metric("Gross Margin",f"{gpm*100:.1f}%" if gpm else "N/A")
+            r11.metric("D/E Ratio", f"{de:.2f}"      if de    else "N/A")
+            r12.metric("Div Yield", f"{div_y*100:.2f}%" if div_y else "N/A")
 
-            r13,r14,r15,r16,r17,r18 = st.columns(6)
-            r13.metric("EPS (TTM)",   f"Rs.{eps:.2f}"      if eps    else "N/A")
-            r14.metric("Book Value",  f"Rs.{bvps:.2f}"     if bvps   else "N/A")
-            r15.metric("Revenue",     f"Rs.{rev/1e7:,.1f}Cr" if rev   else "N/A")
-            r16.metric("EBITDA",      f"Rs.{ebitda/1e7:,.1f}Cr" if ebitda else "N/A")
-            r17.metric("FCF",         f"Rs.{fcf/1e7:,.1f}Cr" if fcf  else "N/A")
-            r18.metric("Rev Growth",  f"{rev_gr*100:.1f}%"  if rev_gr else "N/A")
-
-            # ── Ratio interpretation ──────────────────────────────────────────
-            # Full numbers table
-            st.markdown("#### Key Financials (Full Numbers)")
-            fin_data = {
-                "Metric": ["Revenue","EBITDA","Free Cash Flow","Net Income","Total Debt","Cash"],
-                "Value (Rs. Cr)": [
+            st.markdown("#### Key Financials")
+            import pandas as _pd3
+            fin_df = _pd3.DataFrame({
+                "Metric":["Revenue","EBITDA","Free Cash Flow",
+                          "Net Income","Total Debt","Cash"],
+                "Value (Rs. Cr)":[
                     f"Rs.{rev/1e7:,.2f} Cr"    if rev    else "N/A",
                     f"Rs.{ebitda/1e7:,.2f} Cr" if ebitda else "N/A",
                     f"Rs.{fcf/1e7:,.2f} Cr"    if fcf    else "N/A",
                     f"Rs.{_info.get('netIncomeToCommon',0)/1e7:,.2f} Cr" if _info.get('netIncomeToCommon') else "N/A",
-                    f"Rs.{_info.get('totalDebt',0)/1e7:,.2f} Cr"        if _info.get('totalDebt')         else "N/A",
-                    f"Rs.{_info.get('totalCash',0)/1e7:,.2f} Cr"        if _info.get('totalCash')         else "N/A",
-                ],
-                "Value (Rs. Lakh Cr)": [
-                    f"Rs.{rev/1e11:,.4f} L.Cr"    if rev    else "N/A",
-                    f"Rs.{ebitda/1e11:,.4f} L.Cr" if ebitda else "N/A",
-                    f"Rs.{fcf/1e11:,.4f} L.Cr"    if fcf    else "N/A",
-                    f"Rs.{_info.get('netIncomeToCommon',0)/1e11:,.4f} L.Cr" if _info.get('netIncomeToCommon') else "N/A",
-                    "—","—",
-                ],
-            }
-            import pandas as _pd2
-            st.dataframe(_pd2.DataFrame(fin_data), hide_index=True, use_container_width=True)
+                    f"Rs.{_info.get('totalDebt',0)/1e7:,.2f} Cr"        if _info.get('totalDebt') else "N/A",
+                    f"Rs.{_info.get('totalCash',0)/1e7:,.2f} Cr"        if _info.get('totalCash') else "N/A",
+                ]
+            })
+            st.dataframe(fin_df, hide_index=True, use_container_width=True)
 
-            st.markdown("#### Ratio Interpretation")
-            interp = []
-            if pe > 0:
-                if pe < 15:   interp.append(("P/E", f"{pe:.1f}x", "Potentially undervalued vs market", "#3fb950"))
-                elif pe < 25: interp.append(("P/E", f"{pe:.1f}x", "Fairly valued", "#58a6ff"))
-                else:         interp.append(("P/E", f"{pe:.1f}x", "Premium valuation — growth expected", "#ffa657"))
-            if roe > 0:
-                if roe > 0.20:  interp.append(("ROE", f"{roe*100:.1f}%", "Excellent capital efficiency", "#3fb950"))
-                elif roe > 0.12:interp.append(("ROE", f"{roe*100:.1f}%", "Decent returns on equity", "#58a6ff"))
-                else:           interp.append(("ROE", f"{roe*100:.1f}%", "Below average capital returns", "#f85149"))
-            if de > 0:
-                if de < 0.5:  interp.append(("D/E", f"{de:.2f}", "Low leverage — conservative balance sheet", "#3fb950"))
-                elif de < 1.5:interp.append(("D/E", f"{de:.2f}", "Moderate leverage", "#58a6ff"))
-                else:         interp.append(("D/E", f"{de:.2f}", "High leverage — monitor debt levels", "#f85149"))
-            if npm > 0:
-                if npm > 0.20: interp.append(("Net Margin", f"{npm*100:.1f}%", "Strong profitability", "#3fb950"))
-                elif npm > 0.10:interp.append(("Net Margin",f"{npm*100:.1f}%", "Decent margins", "#58a6ff"))
-                else:           interp.append(("Net Margin",f"{npm*100:.1f}%", "Thin margins — watch costs", "#ffa657"))
+            # DCF
+            st.markdown("#### Automated DCF Valuation")
+            d1,d2,d3 = st.columns(3)
+            wacc    = d1.slider("WACC (%)",8,18,12,key="sa_wacc")/100
+            gr1_5   = d2.slider("Growth Yr 1-5 (%)",0,40,
+                                 int(max(5,(rev_gr or 0.10)*100)),
+                                 key="sa_gr1")/100
+            gr_term = d3.slider("Terminal Growth (%)",2,6,4,key="sa_grt")/100
 
-            if interp:
-                ic = st.columns(len(interp))
-                for i,(metric,val,msg,color) in enumerate(interp):
-                    ic[i].markdown(f"""
-                    <div style="background:#161b22;border-left:3px solid {color};
-                                border-radius:0 8px 8px 0;padding:10px 12px;">
-                        <div style="font-size:11px;color:#6e7681;">{metric}</div>
-                        <div style="font-size:16px;font-weight:700;
-                                    color:{color};">{val}</div>
-                        <div style="font-size:11px;color:#8b949e;">{msg}</div>
-                    </div>
-                    """, unsafe_allow_html=True)
-
-            # ── DCF Valuation ─────────────────────────────────────────────────
-            st.markdown("---")
-            st.markdown("#### DCF Valuation (Automated)")
-            st.caption(
-                "DCF uses free cash flow, analyst growth estimates, and WACC "
-                "to compute intrinsic value. Numbers sourced live from Yahoo Finance."
-            )
-
-            dcf1, dcf2, dcf3 = st.columns(3)
-            wacc     = dcf1.slider("WACC (%)", 8, 18, 12, key="sa_wacc") / 100
-            gr_yr1_5 = dcf2.slider("Growth Yrs 1-5 (%)", 0, 40, 
-                                    int(max(5, (earn_gr or 0.10)*100)),
-                                    key="sa_gr1") / 100
-            gr_term  = dcf3.slider("Terminal Growth (%)", 2, 6, 4, key="sa_grterm") / 100
-
-            if fcf and fcf > 0 and wacc > gr_term:
-                # Project FCF for 5 years
-                projected_fcf = []
-                cf = fcf
-                for yr in range(1, 6):
-                    cf = cf * (1 + gr_yr1_5)
-                    pv = cf / (1 + wacc)**yr
-                    projected_fcf.append({"Year": f"Year {yr}",
-                                          "FCF (Rs.Cr)": f"Rs.{cf/1e7:,.0f}Cr",
-                                          "PV (Rs.Cr)": f"Rs.{pv/1e7:,.0f}Cr"})
-
-                pv_sum = sum(fcf*(1+gr_yr1_5)**yr / (1+wacc)**yr
-                             for yr in range(1, 6))
-                terminal_val = (cf*(1+gr_term)) / (wacc-gr_term)
-                pv_terminal  = terminal_val / (1+wacc)**5
-                shares       = _info.get("sharesOutstanding", 1)
-                net_debt     = (_info.get("totalDebt", 0) -
-                                _info.get("totalCash", 0))
-                equity_val   = pv_sum + pv_terminal - net_debt
-                intrinsic_px = equity_val / shares if shares > 0 else 0
-
-                upside = ((intrinsic_px - curr_px) / curr_px * 100
-                          if curr_px > 0 else 0)
-
-                d1,d2,d3,d4 = st.columns(4)
-                d1.metric("PV of FCF (5yr)", f"Rs.{pv_sum/1e7:,.0f}Cr")
-                d2.metric("Terminal Value",   f"Rs.{pv_terminal/1e7:,.0f}Cr")
-                d3.metric("Intrinsic Value",  f"Rs.{intrinsic_px:,.2f}",
-                          delta=f"{upside:+.1f}% vs CMP")
-                d4.metric("Verdict",
-                          "Undervalued ✅" if upside > 15
-                          else "Fairly Valued ➡️" if upside > -10
-                          else "Overvalued ⚠️",
-                          delta=f"CMP Rs.{curr_px:,.0f}")
-
-                # Sensitivity table
-                st.markdown("**DCF Sensitivity — Intrinsic Value (Rs.)**")
-                waccs    = [wacc-0.02, wacc, wacc+0.02]
-                growths  = [gr_yr1_5-0.05, gr_yr1_5, gr_yr1_5+0.05]
-                sens_data = {}
-                for g in growths:
-                    row = {}
-                    for w in waccs:
-                        if w > gr_term and g >= 0:
-                            pv_s = sum(fcf*(1+g)**yr/(1+w)**yr for yr in range(1,6))
-                            tv_s = (fcf*(1+g)**5*(1+gr_term))/(w-gr_term)
-                            pv_tv= tv_s/(1+w)**5
-                            iv_s = (pv_s+pv_tv-net_debt)/shares if shares>0 else 0
-                            row[f"WACC {w*100:.0f}%"] = f"Rs.{iv_s:,.0f}"
-                        else:
-                            row[f"WACC {w*100:.0f}%"] = "N/A"
-                    sens_data[f"Growth {g*100:.0f}%"] = row
-                st.dataframe(_pd.DataFrame(sens_data).T,
-                             use_container_width=True)
-
-                st.dataframe(_pd.DataFrame(projected_fcf),
-                             hide_index=True, use_container_width=True)
+            if fcf and fcf>0 and wacc>gr_term:
+                pv_sum=0; cf=fcf
+                for yr in range(1,6):
+                    cf=cf*(1+gr1_5)
+                    pv_sum+=cf/(1+wacc)**yr
+                tv=cf*(1+gr_term)/(wacc-gr_term)
+                pv_tv=tv/(1+wacc)**5
+                shares=_info.get("sharesOutstanding",1)
+                net_debt=_info.get("totalDebt",0)-_info.get("totalCash",0)
+                eq_val=pv_sum+pv_tv-net_debt
+                iv=eq_val/shares if shares>0 else 0
+                upside=(iv-curr_px)/curr_px*100 if curr_px>0 else 0
+                da1,da2,da3,da4=st.columns(4)
+                da1.metric("PV of FCF",f"Rs.{pv_sum/1e7:,.0f}Cr")
+                da2.metric("Terminal Value",f"Rs.{pv_tv/1e7:,.0f}Cr")
+                da3.metric("Intrinsic Value",f"Rs.{iv:,.2f}",
+                           delta=f"{upside:+.1f}% vs CMP")
+                da4.metric("Verdict",
+                           "Undervalued ✅" if upside>15
+                           else "Fairly Valued ➡️" if upside>-10
+                           else "Overvalued ⚠️")
             else:
-                # P/E based valuation if no FCF
-                if eps > 0 and pe > 0:
-                    fair_pe      = min(pe, 25)
-                    intrinsic_pe = eps * fair_pe
-                    upside_pe    = (intrinsic_pe-curr_px)/curr_px*100 if curr_px else 0
-                    st.info(
-                        f"FCF not available. Using P/E based valuation: "
-                        f"EPS Rs.{eps:.2f} × Fair P/E {fair_pe:.0f}x = "
-                        f"**Rs.{intrinsic_pe:,.0f}** intrinsic value "
-                        f"({upside_pe:+.1f}% vs CMP Rs.{curr_px:,.0f})"
-                    )
+                if eps>0:
+                    iv_pe=eps*min(pe or 25,25)
+                    up=(iv_pe-curr_px)/curr_px*100 if curr_px else 0
+                    st.info(f"P/E based: EPS Rs.{eps:.2f} × 25x = Rs.{iv_pe:,.0f} ({up:+.1f}% vs CMP)")
                 else:
-                    st.warning(
-                        "Insufficient financial data for DCF. "
-                        "This may be a new listing or data unavailable on Yahoo Finance."
-                    )
-
-            # ── Add to portfolio ──────────────────────────────────────────────
-            st.markdown("---")
-            if selected_name and selected_name in STOCK_UNIVERSE:
-                already = selected_name in selected_assets
-                if not already:
-                    if st.button(f"Add {selected_name} to Portfolio",
-                                 type="primary", key="sa_add_btn"):
-                        selected_assets.append(selected_name)
-                        st.success(f"Added {selected_name}! Tick it in sidebar.")
-                        st.rerun()
-                else:
-                    st.success(f"{selected_name} is already in your portfolio.")
-        else:
-            st.error("Could not fetch company data. Check ticker symbol.")
-    else:
-        st.markdown("""
-        <div style="background:#161b22;border:1px solid #21262d;
-                    border-radius:10px;padding:24px;text-align:center;">
-            <div style="font-size:32px;margin-bottom:12px;">🔍</div>
-            <div style="font-size:16px;font-weight:600;color:#f0f6fc;
-                        margin-bottom:8px;">Search any NSE/BSE stock</div>
-            <div style="font-size:13px;color:#6e7681;line-height:1.8;">
-                Type a company name above to get:<br>
-                • Live price & 1-year chart<br>
-                • 18 financial ratios (P/E, ROE, D/E, margins)<br>
-                • Automated DCF valuation with intrinsic value<br>
-                • Sensitivity analysis across WACC & growth scenarios<br>
-                • One-click add to portfolio
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+                    st.warning("Insufficient data for DCF.")
 
 # ── TAB 5 — Charts & TA ──────────────────────────────────────────────────────
 with tab5:
@@ -884,6 +770,7 @@ with tab5:
 
 # ── TAB 6 — Rebalancing ──────────────────────────────────────────────────────
 with tab6:
+    import pandas as pd
     st.markdown("#### Rebalancing")
     st.caption("Enter current holdings. Target = your Tab 1 portfolio.")
     inp=st.columns(3); uv={}
@@ -901,42 +788,40 @@ with tab6:
             c=cw[a]*100; t=tw[a]*100; g=c-t
             act="TRIM" if g>3 else "ADD" if g<-3 else "HOLD"
             gr.append({"Asset":a,"Current %":f"{c:.1f}%",
-                       "Target %":f"{t:.1f}%","Gap":f"{g:+.1f}%","Action":act,
-                       "Amount":f"{'Sell' if act=='TRIM' else 'Buy' if act=='ADD' else 'Hold'} Rs.{abs(g/100)*tp:,.0f}"})
-        import pandas as pd
+                "Target %":f"{t:.1f}%","Gap":f"{g:+.1f}%","Action":act,
+                "Amount":f"{'Sell' if act=='TRIM' else 'Buy' if act=='ADD' else 'Hold'} Rs.{abs(g/100)*tp:,.0f}"})
         st.dataframe(pd.DataFrame(gr),hide_index=True,use_container_width=True)
         if any(r["Action"]!="HOLD" for r in gr):
-            st.warning("Rebalancing needed.")
+            st.warning("Rebalancing recommended.")
         else:
             st.success("Portfolio aligned with target.")
 
 # ── TAB 7 — Tax ──────────────────────────────────────────────────────────────
 with tab7:
-    st.markdown("#### Tax Optimisation — FY2024-25")
-    st.info("Equity LTCG 12.5% above Rs.1.25L | Debt/Gold at slab rate")
     import pandas as pd
     from datetime import date, timedelta
+    st.markdown("#### Tax Optimisation — FY2024-25")
+    st.info("Equity LTCG 12.5% above Rs.1.25L | Debt at slab rate | SGB tax-free at 8yr")
+    TAX_CAT={"Equity-LC":"Equity","Equity-MC":"Equity","Equity-SC":"Equity",
+             "Sectoral":"Equity","Gold":"Gold ETF","Silver":"Gold ETF",
+             "Debt-Sov":"Debt MF","Debt-TM":"Debt MF","REIT":"Equity",
+             "Stock-Bank":"Equity","Stock-IT":"Equity","Stock-Finance":"Equity",
+             "Stock-FMCG":"Equity","Stock-Auto":"Equity","Stock-Pharma":"Equity",
+             "Stock-Energy":"Equity","Stock-Infra":"Equity","Stock-Metal":"Equity",
+             "Stock-Consumer":"Equity","Stock-Custom":"Equity",
+             "Stock-Telecom":"Equity","Stock-Realty":"Equity",
+             "Stock-Chemicals":"Equity","Stock-Retail":"Equity","Stock-Media":"Equity"}
     TAX_RULES={"Equity":{"stcg":0.20,"ltcg":0.125,"ex":125000,"mo":12},
                "Gold ETF":{"stcg":None,"ltcg":None,"ex":0,"mo":12},
                "Debt MF":{"stcg":None,"ltcg":None,"ex":0,"mo":36}}
-    TAX_CAT={"Equity-LC":"Equity","Equity-MC":"Equity","Equity-SC":"Equity",
-             "Sectoral":"Equity","Intl-Eq":"Equity","Debt-Sov":"Debt MF",
-             "Debt-TM":"Debt MF","Gold":"Gold ETF","Silver":"Gold ETF",
-             "REIT":"Equity","Stock-Bank":"Equity","Stock-IT":"Equity",
-             "Stock-Finance":"Equity","Stock-FMCG":"Equity","Stock-Auto":"Equity",
-             "Stock-Pharma":"Equity","Stock-Energy":"Equity","Stock-Infra":"Equity",
-             "Stock-Metal":"Equity","Stock-Consumer":"Equity","Stock-Custom":"Equity",
-             "Stock-Telecom":"Equity","Stock-Realty":"Equity","Stock-Chemicals":"Equity",
-             "Stock-Retail":"Equity","Stock-Media":"Equity"}
     tx1,tx2,tx3=st.columns(3)
-    ti=tx1.number_input("Invested (Rs.)",value=int(total_investable),step=100000,key="txi")
+    ti=tx1.number_input("Invested",value=int(total_investable),step=100000,key="txi")
     yh=tx2.slider("Years held",1,10,3,key="tyh")
     sl=tx3.selectbox("Tax slab",["5%","10%","20%","30%"],index=3,key="tsl")
     slr=int(sl.replace("%",""))/100
     pd_=date.today()-timedelta(days=365*yh)
-    ARET={a:float(ann_returns[a]) for a in assets}
     hc={a:{"u":ti*port_weights[assets.index(a)]/100,"pp":100.0,
-           "cp":100*(1+ARET[a])**yh} for a in assets}
+           "cp":100*(1+float(ann_returns[a]))**yh} for a in assets}
     def calc_tax(a,pp,cp,un,sl2,lu=0):
         cat=TAX_CAT.get(ASSET_UNIVERSE.get(a,("","Equity-LC"))[1],"Equity")
         r=TAX_RULES.get(cat,TAX_RULES["Equity"])
@@ -990,7 +875,6 @@ with tab10:
 with tab11:
     import pandas as pd
     st.markdown("#### Efficient Frontier")
-    st.caption("Your portfolio (star) vs 4,000 random portfolios.")
     N_SIM=4000; np.random.seed(42)
     def p_ret(w): return float(np.dot(w,ann_returns.values))
     def p_vol(w): return float(np.sqrt(w@cov@w))
@@ -1007,12 +891,6 @@ with tab11:
                     line=dict(color="white",width=2)),
         text=["YOUR PORTFOLIO"],textposition="top right",
         textfont=dict(color="#3fb950",size=11),name="Your Portfolio"))
-    for i,a in enumerate(assets):
-        fig_ef.add_trace(go.Scatter(
-            x=[np.sqrt(cov[i,i])*100],y=[ann_returns[a]*100],
-            mode="markers+text",marker=dict(color="#aaa",size=7,symbol="diamond"),
-            text=[a],textposition="top right",textfont=dict(color="#777",size=8),
-            name=a,showlegend=False))
     fig_ef.update_layout(paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="#161b22",
         font_color="white",xaxis_title="Volatility (%)",yaxis_title="Return (%)",
         height=500,margin=dict(t=20,b=40,l=50,r=20),
@@ -1042,11 +920,11 @@ with tab13:
                 ni=assets.index("Nifty 50")
                 n50=(np.prod(1+sc_r.iloc[:,ni].values)-1)*100
             sr.append({"Scenario":sc,"Portfolio":f"{pd_r:.1f}%",
-                       "Nifty 50":f"{n50:.1f}%","vs Nifty":f"{pd_r-n50:+.1f}%",
-                       "Rs. Impact":f"Rs.{total_investable*pd_r/100:+,.0f}"})
+                "Nifty 50":f"{n50:.1f}%","vs Nifty":f"{pd_r-n50:+.1f}%",
+                "Rs. Impact":f"Rs.{total_investable*pd_r/100:+,.0f}"})
         except Exception:
-            sr.append({"Scenario":sc,"Portfolio":"N/A","Nifty 50":"N/A",
-                       "vs Nifty":"N/A","Rs. Impact":"N/A"})
+            sr.append({"Scenario":sc,"Portfolio":"N/A",
+                "Nifty 50":"N/A","vs Nifty":"N/A","Rs. Impact":"N/A"})
     st.dataframe(pd.DataFrame(sr),hide_index=True,use_container_width=True)
     pr_all=daily_returns.values@port_weights
     cum=np.cumprod(1+pr_all); rm=np.maximum.accumulate(cum); dd=(cum-rm)/rm*100
@@ -1068,7 +946,7 @@ with tab13:
 # ── TAB 14 — Monte Carlo ─────────────────────────────────────────────────────
 with tab14:
     st.markdown("#### Monte Carlo Simulation")
-    mc_yr=st.slider("Horizon",1,30,goal_years,key="mc_yr")
+    mc_yr=st.slider("Horizon (years)",1,30,goal_years,key="mc_yr")
     DAYS=mc_yr*252; N=1000
     mu=m["return"]/252; sig=m["vol"]/np.sqrt(252)
     np.random.seed(42)
@@ -1077,21 +955,25 @@ with tab14:
         paths[:,t]=paths[:,t-1]*(1+np.random.normal(mu,sig,N))
     fv=paths[:,-1]; xa=np.linspace(0,mc_yr,DAYS+1)
     mc1,mc2,mc3,mc4=st.columns(4)
-    mc1.metric(f"Prob Rs.{goal_amount/1e6:.0f}M",f"{(fv>=goal_amount).mean()*100:.1f}%")
+    mc1.metric(f"Prob Rs.{goal_amount/1e6:.0f}M",
+               f"{(fv>=goal_amount).mean()*100:.1f}%")
     mc2.metric("Prob 2x",f"{(fv>=total_investable*2).mean()*100:.1f}%")
     mc3.metric("Prob loss",f"{(fv<total_investable).mean()*100:.1f}%")
     mc4.metric("Median",f"Rs.{np.median(fv)/1e6:.2f}M")
     fig_mc=go.Figure()
     for i in range(min(150,N)):
         fig_mc.add_trace(go.Scatter(x=xa,y=paths[i]/1e6,mode="lines",
-            line=dict(width=0.5,color="#3fb950" if paths[i,-1]>=goal_amount else "#f85149"),
+            line=dict(width=0.5,
+                      color="#3fb950" if paths[i,-1]>=goal_amount else "#f85149"),
             opacity=0.1,showlegend=False,hoverinfo="skip"))
-    p10=np.percentile(paths,10,axis=0); p90=np.percentile(paths,90,axis=0)
+    p10=np.percentile(paths,10,axis=0)
+    p90=np.percentile(paths,90,axis=0)
     pmd=np.percentile(paths,50,axis=0)
     fig_mc.add_trace(go.Scatter(x=xa,y=p90/1e6,fill=None,mode="lines",
         line_color="rgba(255,152,0,0)",showlegend=False))
     fig_mc.add_trace(go.Scatter(x=xa,y=p10/1e6,fill="tonexty",mode="lines",
-        line_color="rgba(255,152,0,0)",fillcolor="rgba(255,152,0,0.12)",name="80% range"))
+        line_color="rgba(255,152,0,0)",
+        fillcolor="rgba(255,152,0,0.12)",name="80% range"))
     fig_mc.add_trace(go.Scatter(x=xa,y=pmd/1e6,mode="lines",
         line=dict(color="#3fb950",width=2.5),name="Median"))
     fig_mc.add_hline(y=goal_amount/1e6,line_dash="dash",line_color="white",
@@ -1101,15 +983,18 @@ with tab14:
         legend=dict(bgcolor="rgba(0,0,0,0)"))
     st.plotly_chart(fig_mc,use_container_width=True)
     lump_g=total_investable*(1+m["return"])**goal_years
-    rem=max(0,goal_amount-lump_g); mo_r2=m["return"]/12; mo2=goal_years*12
+    rem=max(0,goal_amount-lump_g)
+    mo_r2=m["return"]/12; mo2=goal_years*12
     req=(rem*mo_r2/((1+mo_r2)**mo2-1) if mo_r2>0 and rem>0 and mo2>0 else 0)
     gs1,gs2,gs3=st.columns(3)
     gs1.metric("Lump sum at goal",f"Rs.{lump_g/1e6:.2f}M")
     gs2.metric("Gap via SIP",f"Rs.{rem/1e6:.2f}M")
     gs3.metric("Required SIP",f"Rs.{req:,.0f}/month")
     if monthly_sip>0:
-        if monthly_sip>=req: st.success(f"Your SIP of Rs.{monthly_sip:,.0f} is sufficient!")
-        else: st.warning(f"Increase SIP by Rs.{req-monthly_sip:,.0f} to reach goal.")
+        if monthly_sip>=req:
+            st.success(f"Your SIP of Rs.{monthly_sip:,.0f} is sufficient!")
+        else:
+            st.warning(f"Increase SIP by Rs.{req-monthly_sip:,.0f} to reach goal.")
 
 # ── TAB 15 — Backtester ──────────────────────────────────────────────────────
 with tab15:
@@ -1120,4 +1005,8 @@ with tab16:
     render_walkforward_tab()
 
 st.markdown("---")
-st.caption("WealthPy Labs | Built by Samayak Jain | samayakpjain@gmail.com | Educational only | Consult SEBI advisor before investing")
+st.caption(
+    "WealthPy Labs | Built by Samayak Jain | "
+    "samayakpjain@gmail.com | Educational only | "
+    "Consult a SEBI-registered advisor before investing."
+)
