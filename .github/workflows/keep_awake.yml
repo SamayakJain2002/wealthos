@@ -1,0 +1,16 @@
+name: Keep WealthPy Labs Awake
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'  # Every 15 minutes
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wake up WealthPy Labs
+        run: |
+          curl -L --max-time 60 -s https://wealthos-d68kgrqlgk2qzssgxwccuh.streamlit.app > /dev/null
+          echo "Pinged WealthPy Labs at $(date)"
+          echo "Status: $?"
